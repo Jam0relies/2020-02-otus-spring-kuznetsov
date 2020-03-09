@@ -1,5 +1,6 @@
 package ru.otus.dao;
 
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import org.junit.jupiter.api.Test;
 import ru.otus.domain.Question;
 import ru.otus.domain.QuestionImpl;
@@ -21,7 +22,7 @@ class QuestionDaoCsvResourceTest {
                 new QuestionImpl("question5", "answer5")
         );
 
-        QuestionDao questionDao = new QuestionDaoCsvResource("testQuestions.csv");
+        QuestionDao questionDao = new QuestionDaoCsvResource("testQuestions.csv", new CsvMapper());
         List<Question> questions = questionDao.getAll();
         assertEquals(expectedQuestions, questions);
     }
@@ -32,7 +33,7 @@ class QuestionDaoCsvResourceTest {
                 new QuestionImpl("question1", "1")
         );
 
-        QuestionDao questionDao = new QuestionDaoCsvResource("unquotedAnswer.csv");
+        QuestionDao questionDao = new QuestionDaoCsvResource("unquotedAnswer.csv", new CsvMapper());
         List<Question> questions = questionDao.getAll();
         assertEquals(expectedQuestions, questions);
     }

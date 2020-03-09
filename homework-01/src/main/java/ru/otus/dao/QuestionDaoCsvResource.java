@@ -14,17 +14,19 @@ import java.util.List;
 
 public class QuestionDaoCsvResource implements QuestionDao {
     private String resourceName;
+    private CsvMapper mapper;
+    private CsvSchema schema;
 
-    public QuestionDaoCsvResource(String resourceName) {
+    public QuestionDaoCsvResource(String resourceName, CsvMapper mapper) {
         this.resourceName = resourceName;
+        this.mapper = mapper;
+        this.schema = mapper.schema().withHeader();
     }
 
     @Override
     public List<Question> getAll() {
         try {
             File file = new ClassPathResource(resourceName).getFile();
-            CsvMapper mapper = new CsvMapper();
-            CsvSchema schema = mapper.schema().withHeader();
             MappingIterator<Question> readValues =
                     mapper.readerFor(QuestionImpl.class).with(schema).readValues(file);
             return readValues.readAll();

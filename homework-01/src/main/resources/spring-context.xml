@@ -5,8 +5,10 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="questionDao" class="ru.otus.dao.QuestionDaoCsvResource">
         <constructor-arg name="resourceName" value="questions.csv"/>
+        <constructor-arg name="mapper" ref="csvMapper"/>
     </bean>
     <bean id="quizService" class="ru.otus.service.QuizServiceCommandLine">
         <constructor-arg name="questionDao" ref="questionDao"/>
     </bean>
+    <bean id="csvMapper" class="com.fasterxml.jackson.dataformat.csv.CsvMapper"/>
 </beans>
