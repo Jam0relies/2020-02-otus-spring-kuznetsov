@@ -25,4 +25,15 @@ class QuestionDaoCsvResourceTest {
         List<Question> questions = questionDao.getAll();
         assertEquals(expectedQuestions, questions);
     }
+
+    @Test
+    void unquotedAnswer() {
+        List<Question> expectedQuestions = Arrays.asList(
+                new QuestionImpl("question1", "1")
+        );
+
+        QuestionDao questionDao = new QuestionDaoCsvResource("unquotedAnswer.csv");
+        List<Question> questions = questionDao.getAll();
+        assertEquals(expectedQuestions, questions);
+    }
 }
