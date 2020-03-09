@@ -29,7 +29,7 @@ public class QuizServiceCommandLine implements QuizService {
                 }
             }
             System.out.println(studentName + ", you answered correctly " + correctAnswersCount +
-                    " questions.\n Quiz is over");
+                    " questions.\nQuiz is over");
         }
     }
 }
