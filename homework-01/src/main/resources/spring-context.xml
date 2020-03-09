@@ -6,4 +6,7 @@
     <bean id="questionDao" class="ru.otus.dao.QuestionDaoCsvResource">
         <constructor-arg name="resourceName" value="questions.csv"/>
     </bean>
+    <bean id="quizService" class="ru.otus.service.QuizServiceCommandLine">
+        <constructor-arg name="questionDao" ref="questionDao"/>
+    </bean>
 </beans>
