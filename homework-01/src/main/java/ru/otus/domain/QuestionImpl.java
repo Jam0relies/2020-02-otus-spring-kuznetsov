@@ -1,11 +1,15 @@
 package ru.otus.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class QuestionImpl implements Question {
-    private final String text;
-    private final String answer;
+    private String text;
+    private String answer;
 
     @Override
     public boolean isCorrectAnswer(String answer) {
