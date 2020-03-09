@@ -6,10 +6,10 @@ import ru.otus.domain.Question;
 import java.util.List;
 import java.util.Scanner;
 
-public class QuzServiceCommandLine implements QuizService {
+public class QuizServiceCommandLine implements QuizService {
     private final QuestionDao questionDao;
 
-    public QuzServiceCommandLine(QuestionDao questionDao) {
+    public QuizServiceCommandLine(QuestionDao questionDao) {
         this.questionDao = questionDao;
     }
 
