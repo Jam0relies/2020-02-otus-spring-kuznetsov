@@ -13,9 +13,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class QuestionDaoCsvResource implements QuestionDao {
-    private String resourceName;
-    private CsvMapper mapper;
-    private CsvSchema schema;
+    private final String resourceName;
+    private final CsvMapper mapper;
+    private final CsvSchema schema;
 
     public QuestionDaoCsvResource(String resourceName, CsvMapper mapper) {
         this.resourceName = resourceName;
