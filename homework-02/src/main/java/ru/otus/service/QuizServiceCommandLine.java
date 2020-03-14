@@ -1,5 +1,6 @@
 package ru.otus.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import ru.otus.dao.QuestionDao;
@@ -14,11 +15,14 @@ public class QuizServiceCommandLine implements QuizService {
     private final QuestionDao questionDao;
     private final MessageSource messageSource;
     private final Locale locale;
+    private final int passingScore;
 
-    public QuizServiceCommandLine(QuestionDao questionDao, MessageSource messageSource, Locale locale) {
+    public QuizServiceCommandLine(QuestionDao questionDao, MessageSource messageSource, Locale locale,
+                                  @Value("${quiz.passing_score}") int passingScore) {
         this.questionDao = questionDao;
         this.messageSource = messageSource;
         this.locale = locale;
+        this.passingScore = passingScore;
     }
 
 
@@ -26,7 +30,7 @@ public class QuizServiceCommandLine implements QuizService {
     public void startQuiz() {
         List<Question> questions = questionDao.getAll();
         try (Scanner scanner = new Scanner(System.in)) {
-            String startMessage = messageSource.getMessage("message.ask_name", new String[0], locale);
+            String startMessage = messageSource.getMessage("message.ask_name", null, locale);
 
             System.out.println(startMessage);
             String studentName = scanner.nextLine();
@@ -43,6 +47,11 @@ public class QuizServiceCommandLine implements QuizService {
             String finalMessage = messageSource.getMessage("message.end",
                     new String[]{studentName, Integer.toString(correctAnswersCount)}, locale);
             System.out.println(finalMessage);
+            if (correctAnswersCount >= passingScore) {
+                System.out.println(messageSource.getMessage("message.successful", null, locale));
+            } else {
+                System.out.println(messageSource.getMessage("message.fail", null, locale));
+            }
         }
     }
 }
