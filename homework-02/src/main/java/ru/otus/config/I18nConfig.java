@@ -9,6 +9,8 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import ru.otus.dao.QuestionDao;
 import ru.otus.dao.QuestionDaoCsvResource;
 
+import java.util.Locale;
+
 @Configuration
 public class I18nConfig {
     @Bean
@@ -20,7 +22,12 @@ public class I18nConfig {
     }
 
     @Bean
-    QuestionDao localizedQuestionsDao(MessageSource messageSource, CsvMapper mapper) {
+    Locale locale() {
+        return LocaleContextHolder.getLocale();
+    }
+
+    @Bean
+    QuestionDao localizedQuestionsDao(MessageSource messageSource, CsvMapper mapper, Locale locale) {
         String questionResource = messageSource.getMessage("questions.source.csv", new String[0], LocaleContextHolder.getLocale());
         return new QuestionDaoCsvResource(questionResource, mapper);
     }
