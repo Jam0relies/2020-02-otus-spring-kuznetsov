@@ -8,7 +8,7 @@ import ru.otus.service.QuizService;
 
 @Configuration
 @ComponentScan
-@PropertySource("classpath:application.properties")
+@PropertySource("classpath:i18n/application_en.properties")
 public class Main {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
