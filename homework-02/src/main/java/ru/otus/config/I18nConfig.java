@@ -28,7 +28,7 @@ public class I18nConfig {
 
     @Bean
     QuestionDao localizedQuestionsDao(MessageSource messageSource, CsvMapper mapper, Locale locale) {
-        String questionResource = messageSource.getMessage("questions.source.csv", new String[0], LocaleContextHolder.getLocale());
+        String questionResource = messageSource.getMessage("questions.source.csv", new String[0], locale);
         return new QuestionDaoCsvResource(questionResource, mapper);
     }
 }
