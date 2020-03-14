@@ -1,11 +1,13 @@
 package ru.otus.service;
 
+import org.springframework.stereotype.Service;
 import ru.otus.dao.QuestionDao;
 import ru.otus.domain.Question;
 
 import java.util.List;
 import java.util.Scanner;
 
+@Service
 public class QuizServiceCommandLine implements QuizService {
     private final QuestionDao questionDao;
 
