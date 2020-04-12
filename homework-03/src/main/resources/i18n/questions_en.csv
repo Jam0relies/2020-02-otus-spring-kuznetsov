@@ -1,0 +1,6 @@
+text,answer
+"2+2=?",4
+"How many questions have you already answered?",1
+"What is expected in question","answer"
+"How many questions at all",5
+"Is this the last question? yes/no","yes"
