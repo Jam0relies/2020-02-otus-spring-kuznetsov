@@ -1,8 +1,8 @@
 package ru.otus.service;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import ru.otus.config.QuizConfig;
 import ru.otus.dao.QuestionDao;
 import ru.otus.domain.Question;
 
@@ -15,14 +15,13 @@ public class QuizServiceCommandLine implements QuizService {
     private final QuestionDao questionDao;
     private final MessageSource messageSource;
     private final Locale locale;
-    private final int passingScore;
+    private final QuizConfig quizConfig;
 
-    public QuizServiceCommandLine(QuestionDao questionDao, MessageSource messageSource, Locale locale,
-                                  @Value("${quiz.passing_score}") int passingScore) {
+    public QuizServiceCommandLine(QuestionDao questionDao, MessageSource messageSource, Locale locale, QuizConfig quizConfig) {
         this.questionDao = questionDao;
         this.messageSource = messageSource;
         this.locale = locale;
-        this.passingScore = passingScore;
+        this.quizConfig = quizConfig;
     }
 
 
@@ -47,7 +46,7 @@ public class QuizServiceCommandLine implements QuizService {
             String finalMessage = messageSource.getMessage("message.end",
                     new String[]{studentName, Integer.toString(correctAnswersCount)}, locale);
             System.out.println(finalMessage);
-            if (correctAnswersCount >= passingScore) {
+            if (correctAnswersCount >= quizConfig.getPassingScore()) {
                 System.out.println(messageSource.getMessage("message.successful", null, locale));
             } else {
                 System.out.println(messageSource.getMessage("message.fail", null, locale));
