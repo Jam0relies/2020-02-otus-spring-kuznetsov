@@ -14,7 +14,7 @@ import java.util.Locale;
 @Configuration
 public class I18nConfig {
     @Bean
-    MessageSource messageSource() {
+    public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
         ms.setBasename("/i18n/local");
         ms.setDefaultEncoding("UTF-8");
@@ -22,12 +22,12 @@ public class I18nConfig {
     }
 
     @Bean
-    Locale locale() {
+    public Locale locale() {
         return LocaleContextHolder.getLocale();
     }
 
     @Bean
-    QuestionDao localizedQuestionsDao(MessageSource messageSource, CsvMapper mapper, Locale locale) {
+    public QuestionDao localizedQuestionsDao(MessageSource messageSource, CsvMapper mapper, Locale locale) {
         String questionResource = messageSource.getMessage("questions.source.csv", null, locale);
         return new QuestionDaoCsvResource(questionResource, mapper);
     }
