@@ -5,14 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import ru.otus.config.QuizConfig;
-import ru.otus.service.QuizService;
 
 @SpringBootApplication
 @EnableConfigurationProperties(QuizConfig.class)
 public class Main {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
-        QuizService quizService = context.getBean(QuizService.class);
-        quizService.startQuiz();
     }
 }
