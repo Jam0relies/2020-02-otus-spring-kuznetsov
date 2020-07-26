@@ -29,7 +29,6 @@ public class QuizServiceShell {
     private int correctAnswersCount = 0;
 
     @EventListener
-//    @ShellMethod()
     public void printInvite(ApplicationStartedEvent event) {
         System.out.println(messageSource.getMessage("message.ask_name", null, locale));
     }
