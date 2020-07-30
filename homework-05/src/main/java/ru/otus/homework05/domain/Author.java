@@ -1,12 +1,11 @@
 package ru.otus.homework05.domain;
 
 import lombok.Data;
-
-import java.util.List;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(of = {"id"})
 public class Author {
     private final long id;
     private final String name;
-    private final List<Book> books;
 }

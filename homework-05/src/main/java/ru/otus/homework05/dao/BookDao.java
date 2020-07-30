@@ -4,8 +4,9 @@ import ru.otus.homework05.domain.Book;
 
 import java.util.List;
 
+
 public interface BookDao {
-    int count();
+    long count();
 
     void insert(Book book);
 

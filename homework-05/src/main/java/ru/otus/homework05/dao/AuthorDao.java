@@ -5,7 +5,7 @@ import ru.otus.homework05.domain.Author;
 import java.util.List;
 
 public interface AuthorDao {
-    int count();
+    long count();
 
     void insert(Author author);
 
