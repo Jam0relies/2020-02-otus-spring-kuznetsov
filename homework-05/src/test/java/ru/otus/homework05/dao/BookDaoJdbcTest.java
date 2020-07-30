@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.otus.homework05.domain.Book;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Book dao jdbc test")
@@ -32,6 +34,7 @@ class BookDaoJdbcTest {
     void getById() {
         Book book = bookDaoJdbc.getById(1);
         System.out.println(book);
+        assertEquals(1, book.getId());
         assertEquals("Hamlet", book.getName());
         assertEquals(1, book.getAuthors().size());
         assertEquals("William Shakespeare", book.getAuthors().stream().findFirst().get().getName());
@@ -41,9 +44,22 @@ class BookDaoJdbcTest {
 
     @Test
     void getByName() {
+        List<Book> books = bookDaoJdbc.getByName("Hamlet");
+        assertEquals(1, books.size());
+        Book book = books.get(0);
+        assertEquals(1, book.getId());
+        assertEquals("Hamlet", book.getName());
+        assertEquals(1, book.getAuthors().size());
+        assertEquals("William Shakespeare", book.getAuthors().stream().findFirst().get().getName());
+        assertEquals(1, book.getGenres().size());
+        assertEquals("Classic", book.getGenres().stream().findFirst().get().getName());
     }
 
     @Test
     void getAll() {
+    }
+
+    @Test
+    void delete() {
     }
 }

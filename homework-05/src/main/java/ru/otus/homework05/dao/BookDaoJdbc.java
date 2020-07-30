@@ -27,10 +27,22 @@ public class BookDaoJdbc implements BookDao {
 
     @Override
     public void insert(Book book) {
-        final Map<String, Object> params = new HashMap<>(1);
-        params.put("id", book.getId());
-        params.put("name", book.getName());
-        jdbc.update("insert into book (id, name) values (:id, :name)", params);
+        final Map<String, Object> bookParams = new HashMap<>(2);
+        bookParams.put("id", book.getId());
+        bookParams.put("name", book.getName());
+        jdbc.update("insert into book (id, name) values (:id, :name)", bookParams);
+        for (Genre genre : book.getGenres()) {
+            final Map<String, Object> genreParams = new HashMap<>(2);
+            genreParams.put("book_id", book.getId());
+            genreParams.put("genre_id", genre.getId());
+            jdbc.update("insert into book_genre (book_id, genre_id) values (:book_id, :genre_id)", genreParams);
+        }
+        for (Author author : book.getAuthors()) {
+            final Map<String, Object> authorParams = new HashMap<>(2);
+            authorParams.put("book_id", book.getId());
+            authorParams.put("author_id", author.getId());
+            jdbc.update("insert into book_author (book_id, author_id) values (:book_id, :author_id)", authorParams);
+        }
     }
 
     @Override
@@ -109,6 +121,14 @@ public class BookDaoJdbc implements BookDao {
             }
             return books;
         }
+    }
+
+    @Override
+    public boolean delete(long id) {
+        final Map<String, Object> params = new HashMap<>(1);
+        params.put("id", id);
+        return jdbc.update("delete from book where id=:id; delete from book_author where book_id=:id; " +
+                "delete from book_genre where book_id=:id", params) > 0;
     }
 
     private static class BookMapper implements RowMapper<Book> {

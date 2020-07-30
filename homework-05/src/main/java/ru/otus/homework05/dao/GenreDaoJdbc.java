@@ -26,7 +26,7 @@ public class GenreDaoJdbc implements GenreDao {
 
     @Override
     public void insert(Genre genre) {
-        final Map<String, Object> params = new HashMap<>(1);
+        final Map<String, Object> params = new HashMap<>(2);
         params.put("id", genre.getId());
         params.put("name", genre.getName());
         jdbc.update("insert into genre (id, name) values (:id, :name)", params);
@@ -49,6 +49,14 @@ public class GenreDaoJdbc implements GenreDao {
     @Override
     public List<Genre> getAll() {
         return jdbc.query("select * from genre", this.mapper);
+    }
+
+
+    @Override
+    public boolean delete(long id) {
+        final Map<String, Object> params = new HashMap<>(1);
+        params.put("id", id);
+        return jdbc.update("delete from genre where id=:id; delete from book_genre where genre_id=:id", params) > 0;
     }
 
     private static class GenreMapper implements RowMapper<Genre> {

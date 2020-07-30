@@ -50,6 +50,13 @@ public class AuthorDaoJdbc implements AuthorDao {
         return jdbc.query("select * from author", this.mapper);
     }
 
+    @Override
+    public boolean delete(long id) {
+        final Map<String, Object> params = new HashMap<>(1);
+        params.put("id", id);
+        return jdbc.update("delete from author where id=:id; delete from book_author where author_id=:id", params) > 0;
+    }
+
     private static class AuthorMapper implements RowMapper<Author> {
         @Override
         public Author mapRow(ResultSet rs, int rowNum) throws SQLException {

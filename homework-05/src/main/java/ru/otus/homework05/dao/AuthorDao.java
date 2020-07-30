@@ -14,4 +14,6 @@ public interface AuthorDao {
     List<Author> getByName(String name);
 
     List<Author> getAll();
+
+    boolean delete(long id);
 }
