@@ -9,9 +9,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.otus.homework05.domain.Book;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @DisplayName("Book dao jdbc test")
 @ExtendWith(SpringExtension.class)
@@ -23,11 +25,18 @@ class BookDaoJdbcTest {
 
     @Test
     void count() {
-        bookDaoJdbc.count();
+        long oldQuantity = bookDaoJdbc.count();
+        bookDaoJdbc.insert(new Book(123456, "Some book", Collections.emptySet(), Collections.emptySet()));
+        long newQuantity = bookDaoJdbc.count();
+        assertEquals(oldQuantity + 1, newQuantity);
     }
 
     @Test
     void insert() {
+        Book book = new Book(123456, "New book", Collections.emptySet(), Collections.emptySet());
+        bookDaoJdbc.insert(book);
+        Book found = bookDaoJdbc.getById(123456);
+        assertEquals("New book", found.getName());
     }
 
     @Test
@@ -57,9 +66,13 @@ class BookDaoJdbcTest {
 
     @Test
     void getAll() {
+        List<Book> found = bookDaoJdbc.getAll();
+        assertEquals(bookDaoJdbc.count(), found.size());
     }
 
     @Test
     void delete() {
+        bookDaoJdbc.delete(1);
+        assertNull(bookDaoJdbc.getById(1));
     }
 }

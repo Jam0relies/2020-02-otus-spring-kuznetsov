@@ -54,7 +54,7 @@ public class AuthorDaoJdbc implements AuthorDao {
     public boolean delete(long id) {
         final Map<String, Object> params = new HashMap<>(1);
         params.put("id", id);
-        return jdbc.update("delete from author where id=:id; delete from book_author where author_id=:id", params) > 0;
+        return jdbc.update("delete from author where id=:id", params) > 0;
     }
 
     private static class AuthorMapper implements RowMapper<Author> {

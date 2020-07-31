@@ -127,8 +127,7 @@ public class BookDaoJdbc implements BookDao {
     public boolean delete(long id) {
         final Map<String, Object> params = new HashMap<>(1);
         params.put("id", id);
-        return jdbc.update("delete from book where id=:id; delete from book_author where book_id=:id; " +
-                "delete from book_genre where book_id=:id", params) > 0;
+        return jdbc.update("delete from book where id=:id; delete from book_author where book_id=:id", params) > 0;
     }
 
     private static class BookMapper implements RowMapper<Book> {

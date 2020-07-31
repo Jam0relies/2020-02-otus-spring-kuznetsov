@@ -56,7 +56,7 @@ public class GenreDaoJdbc implements GenreDao {
     public boolean delete(long id) {
         final Map<String, Object> params = new HashMap<>(1);
         params.put("id", id);
-        return jdbc.update("delete from genre where id=:id; delete from book_genre where genre_id=:id", params) > 0;
+        return jdbc.update("delete from genre where id=:id", params) > 0;
     }
 
     private static class GenreMapper implements RowMapper<Genre> {
