@@ -1,11 +1,12 @@
-package ru.otus.homework05.service;
+package ru.otus.homework06.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.homework05.dao.AuthorDao;
-import ru.otus.homework05.domain.Author;
+import ru.otus.homework06.dao.AuthorDao;
+import ru.otus.homework06.domain.Author;
+
 
 @ShellComponent
 @RequiredArgsConstructor

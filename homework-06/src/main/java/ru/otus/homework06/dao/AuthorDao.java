@@ -1,6 +1,7 @@
-package ru.otus.homework05.dao;
+package ru.otus.homework06.dao;
 
-import ru.otus.homework05.domain.Author;
+
+import ru.otus.homework06.domain.Author;
 
 import java.util.List;
 

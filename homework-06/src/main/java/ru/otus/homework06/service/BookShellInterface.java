@@ -1,13 +1,14 @@
-package ru.otus.homework05.service;
+package ru.otus.homework06.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.homework05.dao.BookDao;
-import ru.otus.homework05.domain.Author;
-import ru.otus.homework05.domain.Book;
-import ru.otus.homework05.domain.Genre;
+import ru.otus.homework06.dao.BookDao;
+import ru.otus.homework06.domain.Author;
+import ru.otus.homework06.domain.Book;
+import ru.otus.homework06.domain.Genre;
+
 
 import java.util.Arrays;
 import java.util.HashSet;

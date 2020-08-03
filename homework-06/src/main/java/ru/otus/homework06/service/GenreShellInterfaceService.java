@@ -1,11 +1,12 @@
-package ru.otus.homework05.service;
+package ru.otus.homework06.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.homework05.dao.GenreDao;
-import ru.otus.homework05.domain.Genre;
+import ru.otus.homework06.dao.GenreDao;
+import ru.otus.homework06.domain.Genre;
+
 
 @ShellComponent
 @RequiredArgsConstructor

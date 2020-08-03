@@ -1,10 +1,10 @@
-package ru.otus.homework05.dao;
+package ru.otus.homework06.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
-import ru.otus.homework05.domain.Author;
+import ru.otus.homework06.domain.Author;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
