@@ -1,6 +1,6 @@
 CREATE TABLE if not exists genres
 (
-    id   BIGINT PRIMARY KEY,
+    id   BIGINT PRIMARY KEY auto_increment,
     name VARCHAR(255)
 );
 
