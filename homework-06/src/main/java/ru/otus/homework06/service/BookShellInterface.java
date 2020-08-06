@@ -4,63 +4,50 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.homework06.dao.BookDao;
-import ru.otus.homework06.domain.Author;
 import ru.otus.homework06.domain.Book;
-import ru.otus.homework06.domain.Genre;
+import ru.otus.homework06.repository.BookRepository;
 
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Collections;
 
 @ShellComponent
 @RequiredArgsConstructor
 public class BookShellInterface {
-    private final BookDao bookDao;
+    private final BookRepository repository;
 
     @ShellMethod(value = "Find book by id (long id)", key = {"bookById"})
     public String getById(@ShellOption Long id) {
-        return bookDao.getById(id).toString();
+        return repository.findById(id).toString();
     }
 
     @ShellMethod(value = "Find author by name (String name)", key = {"bookByName"})
     public String getById(@ShellOption String name) {
-        return bookDao.getByName(name).toString();
+        return repository.findByName(name).toString();
     }
 
-    @ShellMethod(value = "Add new book (long id, String name, String authorIds - comma separated, " +
-            "String genreIds- comma separated)", key = {"addBook"})
-    public String addBook(@ShellOption long id, @ShellOption String name,
-                          @ShellOption(defaultValue = "") String authorIds,
-                          @ShellOption(defaultValue = "") String genreIds) {
-        Set<Author> authors;
-        if (!authorIds.isEmpty()) {
-            authors = Arrays.asList(authorIds.split(",")).stream().mapToLong(Long::parseLong)
-                    .mapToObj(i -> new Author(i, "")).collect(Collectors.toSet());
-        } else {
-            authors = new HashSet<>();
-        }
-        Set<Genre> genres;
-        if (!genreIds.isEmpty()) {
-            genres = Arrays.asList(authorIds.split(",")).stream().mapToLong(Long::parseLong)
-                    .mapToObj(i -> new Genre(i, "")).collect(Collectors.toSet());
-        } else {
-            genres = new HashSet<>();
-        }
-        Book book = new Book(id, name, authors, genres);
-        bookDao.insert(book);
-        return bookDao.getById(id).toString();
+    @ShellMethod(value = "Add new book (String name)", key = {"addBook"})
+    public String addBook(@ShellOption String name) {
+        final Book book = new Book(0, name, Collections.emptySet(), Collections.emptySet());
+        final Book savedBook = repository.save(book);
+        return savedBook.toString();
     }
 
     @ShellMethod(value = "Get all books", key = {"books"})
     public String getAll() {
-        return bookDao.getAll().toString();
+        return repository.findAll().toString();
     }
 
     @ShellMethod(value = "Delete book by id (long id)", key = {"deleteBook"})
     public String delete(@ShellOption long id) {
-        return Boolean.toString(bookDao.delete(id));
+        return Boolean.toString(repository.delete(id));
+    }
+
+    @ShellMethod(value = "Add author to book by their id's (long bookId, long authorId)", key = {"addBookAuthor"})
+    public String addAuthor(long bookId, long authorId) {
+        return repository.addAuthorById(bookId, authorId).toString();
+    }
+
+    @ShellMethod(value = "Add genre to book by their id's (long bookId, long authorId)", key = {"addBookGenre"})
+    public String addGenre(long bookId, long authorId) {
+        return repository.addGenreById(bookId, authorId).toString();
     }
 }
