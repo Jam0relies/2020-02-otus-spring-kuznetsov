@@ -1,0 +1,8 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  shell:
+    interactive:
+      enabled: false
+quiz:
+  passing-score: 4
