@@ -10,7 +10,7 @@ import ru.otus.homework06.repository.GenreRepository;
 
 @ShellComponent
 @RequiredArgsConstructor
-public class GenreShellInterfaceService {
+public class GenreShellInterface {
     private final GenreRepository repository;
 
     @ShellMethod(value = "Find genre by id (long id)", key = {"genreById"})

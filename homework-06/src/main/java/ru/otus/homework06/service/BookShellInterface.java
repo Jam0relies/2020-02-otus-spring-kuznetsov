@@ -7,8 +7,6 @@ import org.springframework.shell.standard.ShellOption;
 import ru.otus.homework06.domain.Book;
 import ru.otus.homework06.repository.BookRepository;
 
-import java.util.Collections;
-
 @ShellComponent
 @RequiredArgsConstructor
 public class BookShellInterface {
@@ -26,7 +24,7 @@ public class BookShellInterface {
 
     @ShellMethod(value = "Add new book (String name)", key = {"addBook"})
     public String addBook(@ShellOption String name) {
-        final Book book = new Book(0, name, Collections.emptySet(), Collections.emptySet());
+        final Book book = new Book(name);
         final Book savedBook = repository.save(book);
         return savedBook.toString();
     }

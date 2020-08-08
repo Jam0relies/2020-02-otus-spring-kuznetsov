@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import ru.otus.homework06.domain.Author;
 import ru.otus.homework06.domain.Book;
+import ru.otus.homework06.domain.Comment;
 import ru.otus.homework06.domain.Genre;
 
 import java.util.HashSet;
@@ -17,7 +18,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("Author JPA repository test")
+@DisplayName("Book JPA repository test")
 @DataJpaTest
 @Import(BookRepositoryJpa.class)
 class BookRepositoryJpaTest {
@@ -101,6 +102,24 @@ class BookRepositoryJpaTest {
     void delete() {
         repositoryJpa.delete(FIRST_BOOK_ID);
         assertNull(em.find(Book.class, FIRST_BOOK_ID));
+    }
+
+    @Test
+    void commentShouldBeDeleted() {
+        repositoryJpa.delete(FIRST_BOOK_ID);
+        assertNull(em.find(Comment.class, 1L));
+    }
+
+    @Test
+    void authorShouldNotBeDeleted() {
+        repositoryJpa.delete(FIRST_BOOK_ID);
+        assertNotNull(em.find(Author.class, 1L));
+    }
+
+    @Test
+    void genreShouldNotBeDeleted() {
+        repositoryJpa.delete(FIRST_BOOK_ID);
+        assertNotNull(em.find(Genre.class, 1L));
     }
 
     @Test
