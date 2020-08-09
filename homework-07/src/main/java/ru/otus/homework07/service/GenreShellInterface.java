@@ -36,7 +36,7 @@ public class GenreShellInterface {
     }
 
     @ShellMethod(value = "Delete genre by id (long id)", key = {"deleteGenre"})
-    public String delete(@ShellOption long id) {
-        return Boolean.toString(repository.delete(id));
+    public void delete(@ShellOption long id) {
+        repository.deleteById(id);
     }
 }

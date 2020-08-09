@@ -10,17 +10,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class CommentRepositoryJpa implements CommentRepository {
+public class CommentRepositoryJpa {
     @PersistenceContext
     private EntityManager em;
 
-    @Override
+    //    @Override
     @Transactional
     public long count() {
         return em.createQuery("select count(c) from Comment c", Long.class).getSingleResult();
     }
 
-    @Override
+    //    @Override
     @Transactional
     public Comment save(Comment comment) {
         if (comment.getId() == 0) {
@@ -31,13 +31,13 @@ public class CommentRepositoryJpa implements CommentRepository {
         }
     }
 
-    @Override
+    //    @Override
     @Transactional
     public Optional<Comment> findById(long id) {
         return Optional.ofNullable(em.find(Comment.class, id));
     }
 
-    @Override
+    //    @Override
     @Transactional
     public List<Comment> findByBookId(long bookId) {
         return em.createQuery("select c from Comment c where c.book.id = :bookId", Comment.class)
@@ -45,14 +45,14 @@ public class CommentRepositoryJpa implements CommentRepository {
                 .getResultList();
     }
 
-    @Override
+    //    @Override
     @Transactional
     public List<Comment> findAll() {
         return em.createQuery("select c from Comment c", Comment.class)
                 .getResultList();
     }
 
-    @Override
+    //    @Override
     @Transactional
     public boolean delete(long id) {
         return em.createQuery("delete from Comment c where c.id = : id")

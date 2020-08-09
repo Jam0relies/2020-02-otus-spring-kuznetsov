@@ -10,23 +10,23 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class AuthorRepositoryJpa implements AuthorRepository {
+public class AuthorRepositoryImpl {
     @PersistenceContext
     private EntityManager em;
 
-    @Override
+    //    @Override
     @Transactional
     public Optional<Author> findById(long id) {
         return Optional.ofNullable(em.find(Author.class, id));
     }
 
-    @Override
+    //    @Override
     @Transactional
     public long count() {
         return em.createQuery("select count(a) from Author a", Long.class).getSingleResult();
     }
 
-    @Override
+    //    @Override
     @Transactional
     public Author save(Author author) {
         if (author.getId() == 0) {
@@ -37,21 +37,21 @@ public class AuthorRepositoryJpa implements AuthorRepository {
         }
     }
 
-    @Override
+    //    @Override
     @Transactional
     public List<Author> findByName(String name) {
         return em.createQuery("select a from Author a where a.name = :name", Author.class)
                 .setParameter("name", name).getResultList();
     }
 
-    @Override
+    //    @Override
     @Transactional
     public List<Author> findAll() {
         return em.createQuery("select a from Author a", Author.class)
                 .getResultList();
     }
 
-    @Override
+    //    @Override
     @Transactional
     public boolean delete(long id) {
         return em.createQuery("delete from Author a where a.id = : id")

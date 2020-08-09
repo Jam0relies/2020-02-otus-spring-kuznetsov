@@ -35,8 +35,8 @@ public class BookShellInterface {
     }
 
     @ShellMethod(value = "Delete book by id (long id)", key = {"deleteBook"})
-    public String delete(@ShellOption long id) {
-        return Boolean.toString(repository.delete(id));
+    public void delete(@ShellOption long id) {
+        repository.deleteById(id);
     }
 
     @ShellMethod(value = "Add author to book by their id's (long bookId, long authorId)", key = {"addBookAuthor"})

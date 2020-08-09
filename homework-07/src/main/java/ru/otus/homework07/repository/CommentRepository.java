@@ -1,20 +1,10 @@
 package ru.otus.homework07.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import ru.otus.homework07.domain.Comment;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface CommentRepository {
-    long count();
-
-    Comment save(Comment comment);
-
-    Optional<Comment> findById(long id);
-
+public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findByBookId(long bookId);
-
-    List<Comment> findAll();
-
-    boolean delete(long id);
 }

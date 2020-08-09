@@ -13,17 +13,17 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public class BookRepositoryJpa implements BookRepository {
+public class BookRepositoryJpa {
     @PersistenceContext
     private EntityManager em;
 
-    @Override
+    //    @Override
     @Transactional
     public long count() {
         return em.createQuery("select count(b) from Book b", Long.class).getSingleResult();
     }
 
-    @Override
+    //    @Override
     @Transactional
     public Book save(Book book) {
         if (book.getId() == 0) {
@@ -34,27 +34,27 @@ public class BookRepositoryJpa implements BookRepository {
         }
     }
 
-    @Override
+    //    @Override
     @Transactional
     public Optional<Book> findById(long id) {
         return Optional.ofNullable(em.find(Book.class, id));
     }
 
-    @Override
+    //    @Override
     @Transactional
     public List<Book> findByName(String name) {
         return em.createQuery("select b from Book b where b.name = :name", Book.class)
                 .setParameter("name", name).getResultList();
     }
 
-    @Override
+    //    @Override
     @Transactional
     public List<Book> findAll() {
         return em.createQuery("select b from Book b", Book.class)
                 .getResultList();
     }
 
-    @Override
+    //    @Override
     @Transactional
     public boolean delete(long id) {
         return em.createQuery("delete from Book b where b.id = : id")
@@ -62,7 +62,7 @@ public class BookRepositoryJpa implements BookRepository {
                 .executeUpdate() > 0;
     }
 
-    @Override
+    //    @Override
     @Transactional
     public Book addAuthorById(long bookId, long authorId) {
         Book book = this.findById(bookId).get();
@@ -73,7 +73,7 @@ public class BookRepositoryJpa implements BookRepository {
         return this.save(book);
     }
 
-    @Override
+    //    @Override
     @Transactional
     public Book addGenreById(long bookId, long genreId) {
         Book book = this.findById(bookId).get();

@@ -36,7 +36,7 @@ public class AuthorShellInterface {
     }
 
     @ShellMethod(value = "Delete author by id (long id)", key = {"deleteAuthor"})
-    public String delete(@ShellOption long id) {
-        return Boolean.toString(authorRepository.delete(id));
+    public void delete(@ShellOption long id) {
+        authorRepository.deleteById(id);
     }
 }

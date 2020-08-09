@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 import ru.otus.homework07.domain.Genre;
 
 import java.util.HashSet;
@@ -16,11 +15,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Genre JPA repository test")
 @DataJpaTest
-@Import(GenreRepositoryJpa.class)
 class GenreRepositoryJpaTest {
     public static final long FIRST_GENRE_ID = 1;
     @Autowired
-    private GenreRepositoryJpa repositoryJpa;
+    private GenreRepository repositoryJpa;
     @Autowired
     private TestEntityManager em;
 
@@ -82,7 +80,7 @@ class GenreRepositoryJpaTest {
     @DisplayName("should delete entity")
     @Test
     void delete() {
-        repositoryJpa.delete(FIRST_GENRE_ID);
+        repositoryJpa.deleteById(FIRST_GENRE_ID);
         assertNull(em.find(Genre.class, FIRST_GENRE_ID));
     }
 }

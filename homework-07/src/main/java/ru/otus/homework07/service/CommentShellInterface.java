@@ -31,7 +31,7 @@ public class CommentShellInterface {
     }
 
     @ShellMethod(value = "Delete comment by id (long id)", key = {"deleteComment"})
-    public String delete(@ShellOption long id) {
-        return Boolean.toString(repository.delete(id));
+    public void delete(@ShellOption long id) {
+        repository.deleteById(id);
     }
 }

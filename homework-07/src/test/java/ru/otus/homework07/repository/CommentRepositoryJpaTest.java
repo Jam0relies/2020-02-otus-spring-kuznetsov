@@ -49,6 +49,7 @@ class CommentRepositoryJpaTest {
         Comment newComment = new Comment(0, "sometext", Instant.now(), new Book(1));
         repositoryJpa.save(newComment);
         Comment foundComment = em.find(Comment.class, newComment.getId());
+        assertEquals("Hamlet", foundComment.getBook().getName());
         assertEquals(newComment, foundComment);
     }
 
@@ -76,7 +77,7 @@ class CommentRepositoryJpaTest {
     @DisplayName("should delete entity")
     @Test
     void delete() {
-        repositoryJpa.delete(FIRST_COMMENT_ID);
+        repositoryJpa.deleteById(FIRST_COMMENT_ID);
         assertNull(em.find(Comment.class, FIRST_COMMENT_ID));
     }
 

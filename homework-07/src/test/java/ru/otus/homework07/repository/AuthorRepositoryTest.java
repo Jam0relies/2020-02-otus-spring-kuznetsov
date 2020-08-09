@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 import ru.otus.homework07.domain.Author;
 
 import java.util.HashSet;
@@ -16,11 +15,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Author JPA repository test")
 @DataJpaTest
-@Import(AuthorRepositoryJpa.class)
-class AuthorRepositoryJpaTest {
+class AuthorRepositoryTest {
     public static final long FIRST_AUTHOR_ID = 1;
     @Autowired
-    private AuthorRepositoryJpa repositoryJpa;
+    private AuthorRepository repositoryJpa;
     @Autowired
     private TestEntityManager em;
 
@@ -82,7 +80,7 @@ class AuthorRepositoryJpaTest {
     @DisplayName("should delete entity")
     @Test
     void delete() {
-        repositoryJpa.delete(FIRST_AUTHOR_ID);
+        repositoryJpa.deleteById(FIRST_AUTHOR_ID);
         assertNull(em.find(Author.class, FIRST_AUTHOR_ID));
     }
 }
