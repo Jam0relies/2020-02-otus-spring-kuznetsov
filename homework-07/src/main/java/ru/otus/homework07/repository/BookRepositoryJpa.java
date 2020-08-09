@@ -17,7 +17,7 @@ public class BookRepositoryJpa {
     @PersistenceContext
     private EntityManager em;
 
-    //    @Override
+//    @Override
     @Transactional
     public long count() {
         return em.createQuery("select count(b) from Book b", Long.class).getSingleResult();
