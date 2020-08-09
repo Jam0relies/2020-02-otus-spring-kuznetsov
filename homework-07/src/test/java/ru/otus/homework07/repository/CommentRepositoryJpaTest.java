@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 import ru.otus.homework07.domain.Book;
 import ru.otus.homework07.domain.Comment;
 
@@ -18,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Comment JPA repository test")
 @DataJpaTest
-@Import(CommentRepositoryJpa.class)
 class CommentRepositoryJpaTest {
     static final long FIRST_COMMENT_ID = 1;
     @Autowired
@@ -49,6 +47,7 @@ class CommentRepositoryJpaTest {
         Comment newComment = new Comment(0, "sometext", Instant.now(), new Book(1));
         repositoryJpa.save(newComment);
         Comment foundComment = em.find(Comment.class, newComment.getId());
+        em.refresh(foundComment);
         assertEquals("Hamlet", foundComment.getBook().getName());
         assertEquals(newComment, foundComment);
     }

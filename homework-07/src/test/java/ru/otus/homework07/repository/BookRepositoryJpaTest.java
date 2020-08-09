@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 import ru.otus.homework07.domain.Author;
 import ru.otus.homework07.domain.Book;
 import ru.otus.homework07.domain.Comment;
@@ -20,12 +19,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Book JPA repository test")
 @DataJpaTest
-@Import(BookRepositoryJpa.class)
 class BookRepositoryJpaTest {
     public static final long FIRST_BOOK_ID = 1;
     public static final int EXPECTED_QUERIES_COUNT_PER_BOOK = 1;
     @Autowired
-    private BookRepositoryJpa repositoryJpa;
+    private BookRepository repository;
     @Autowired
     private TestEntityManager em;
 
@@ -34,7 +32,7 @@ class BookRepositoryJpaTest {
     void count() {
         long expectedQuantity = em.getEntityManager().createQuery("select b from Book b", Book.class).
                 getResultList().size();
-        long actualQuantity = repositoryJpa.count();
+        long actualQuantity = repository.count();
         assertEquals(expectedQuantity, actualQuantity);
     }
 
@@ -43,7 +41,7 @@ class BookRepositoryJpaTest {
     void saveIdTest() {
         Book newBook = new Book();
         newBook.setName("new book");
-        repositoryJpa.save(newBook);
+        repository.save(newBook);
         assertNotEquals(0, newBook.getId());
     }
 
@@ -52,7 +50,7 @@ class BookRepositoryJpaTest {
     void save() {
         Book newBook = new Book();
         newBook.setName("new book");
-        repositoryJpa.save(newBook);
+        repository.save(newBook);
         Book foundAuthor = em.find(Book.class, newBook.getId());
         assertEquals(newBook, foundAuthor);
     }
@@ -61,7 +59,7 @@ class BookRepositoryJpaTest {
     @Test
     void findById() {
         Book expectedBook = em.find(Book.class, FIRST_BOOK_ID);
-        Book actualBook = repositoryJpa.findById(FIRST_BOOK_ID).get();
+        Book actualBook = repository.findById(FIRST_BOOK_ID).get();
         assertEquals(expectedBook, actualBook);
         assertEquals(1, actualBook.getAuthors().size());
         assertEquals("William Shakespeare", actualBook.getAuthors().toArray(new Author[1])[0].getName());
@@ -75,7 +73,7 @@ class BookRepositoryJpaTest {
         SessionFactory sessionFactory = em.getEntityManager().getEntityManagerFactory()
                 .unwrap(SessionFactory.class);
         sessionFactory.getStatistics().setStatisticsEnabled(true);
-        Book actualBook = repositoryJpa.findById(FIRST_BOOK_ID).get();
+        Book actualBook = repository.findById(FIRST_BOOK_ID).get();
         assertEquals(1, actualBook.getAuthors().size());
         assertEquals(1, actualBook.getGenres().size());
         assertEquals(EXPECTED_QUERIES_COUNT_PER_BOOK, sessionFactory.getStatistics().getPrepareStatementCount());
@@ -85,7 +83,7 @@ class BookRepositoryJpaTest {
     @Test
     void findByName() {
         Book expectedBook = em.find(Book.class, FIRST_BOOK_ID);
-        Book actualBook = repositoryJpa.findByName(expectedBook.getName()).get(0);
+        Book actualBook = repository.findByName(expectedBook.getName()).get(0);
         assertEquals(expectedBook, actualBook);
     }
 
@@ -95,7 +93,7 @@ class BookRepositoryJpaTest {
     void findAll() {
         Set<Book> expectedBooks = new HashSet<>(em.getEntityManager().createQuery("select b from Book b", Book.class).
                 getResultList());
-        List<Book> actualBookList = repositoryJpa.findAll();
+        List<Book> actualBookList = repository.findAll();
         Set<Book> actualBooks = new HashSet<>(actualBookList);
         assertEquals(actualBooks.size(), actualBookList.size());
         assertEquals(expectedBooks, actualBooks);
@@ -104,35 +102,35 @@ class BookRepositoryJpaTest {
     @DisplayName("should delete entity")
     @Test
     void delete() {
-        repositoryJpa.delete(FIRST_BOOK_ID);
+        repository.deleteById(FIRST_BOOK_ID);
         assertNull(em.find(Book.class, FIRST_BOOK_ID));
     }
 
     @DisplayName("should delete book, but not comments")
     @Test
     void commentShouldBeDeleted() {
-        repositoryJpa.delete(FIRST_BOOK_ID);
+        repository.deleteById(FIRST_BOOK_ID);
         assertNull(em.find(Comment.class, 1L));
     }
 
     @DisplayName("should delete book, but not author")
     @Test
     void authorShouldNotBeDeleted() {
-        repositoryJpa.delete(FIRST_BOOK_ID);
+        repository.deleteById(FIRST_BOOK_ID);
         assertNotNull(em.find(Author.class, 1L));
     }
 
     @DisplayName("should delete book, but not genre")
     @Test
     void genreShouldNotBeDeleted() {
-        repositoryJpa.delete(FIRST_BOOK_ID);
+        repository.deleteById(FIRST_BOOK_ID);
         assertNotNull(em.find(Genre.class, 1L));
     }
 
     @DisplayName("should add author to book")
     @Test
     void addAuthorById() {
-        repositoryJpa.addAuthorById(FIRST_BOOK_ID, 2);
+        repository.addAuthorById(FIRST_BOOK_ID, 2);
         Book book = em.find(Book.class, FIRST_BOOK_ID);
         Author author = book.getAuthors().stream().filter(a -> a.getId() == 2).findAny().get();
         assertEquals("Harold Abelson", author.getName());
@@ -141,7 +139,7 @@ class BookRepositoryJpaTest {
     @DisplayName("should add author to book")
     @Test
     void addGenreById() {
-        repositoryJpa.addGenreById(FIRST_BOOK_ID, 2);
+        repository.addGenreById(FIRST_BOOK_ID, 2);
         Book book = em.find(Book.class, FIRST_BOOK_ID);
         Genre genre = book.getGenres().stream().filter(g -> g.getId() == 2).findAny().get();
         assertEquals("Religion", genre.getName());
