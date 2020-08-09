@@ -1,7 +1,7 @@
-package ru.otus.homework06.repository;
+package ru.otus.homework07.repository;
 
 import org.springframework.stereotype.Repository;
-import ru.otus.homework06.domain.Genre;
+import ru.otus.homework07.domain.Genre;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

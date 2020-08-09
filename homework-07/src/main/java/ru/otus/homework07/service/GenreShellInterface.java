@@ -1,11 +1,11 @@
-package ru.otus.homework06.service;
+package ru.otus.homework07.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.homework06.domain.Genre;
-import ru.otus.homework06.repository.GenreRepository;
+import ru.otus.homework07.domain.Genre;
+import ru.otus.homework07.repository.GenreRepository;
 
 
 @ShellComponent

@@ -1,6 +1,6 @@
-package ru.otus.homework06.repository;
+package ru.otus.homework07.repository;
 
-import ru.otus.homework06.domain.Book;
+import ru.otus.homework07.domain.Book;
 
 import java.util.List;
 import java.util.Optional;

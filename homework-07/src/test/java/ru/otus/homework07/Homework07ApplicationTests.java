@@ -1,10 +1,10 @@
-package ru.otus.homework06;
+package ru.otus.homework07;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Homework05ApplicationTests {
+class Homework07ApplicationTests {
 
     @Test
     void contextLoads() {

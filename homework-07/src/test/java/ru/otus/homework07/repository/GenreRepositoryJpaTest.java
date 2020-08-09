@@ -1,4 +1,4 @@
-package ru.otus.homework06.repository;
+package ru.otus.homework07.repository;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import ru.otus.homework06.domain.Genre;
+import ru.otus.homework07.domain.Genre;
 
 import java.util.HashSet;
 import java.util.List;
