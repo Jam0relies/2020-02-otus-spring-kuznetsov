@@ -1,6 +1,7 @@
 HELP.md
 target/
 /.mvn/
+/spring-shell.log
 /mvnw*
 !**/src/main/**/target/
 !**/src/test/**/target/
