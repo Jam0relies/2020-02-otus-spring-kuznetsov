@@ -60,6 +60,7 @@ class GenreRepositoryJpaTest {
         assertEquals(newGenre, foundGenre);
     }
 
+    @DisplayName("should find entity by name")
     @Test
     void findByName() {
         Genre expectedGenre = em.find(Genre.class, FIRST_GENRE_ID);
@@ -67,6 +68,7 @@ class GenreRepositoryJpaTest {
         assertEquals(expectedGenre, actualGenre);
     }
 
+    @DisplayName("should find all entities")
     @Test
     void findAll() {
         Set<Genre> expectedGenres = new HashSet<>(em.getEntityManager().createQuery("select g from Genre g", Genre.class).
@@ -77,6 +79,7 @@ class GenreRepositoryJpaTest {
         assertEquals(expectedGenres, actualGenres);
     }
 
+    @DisplayName("should delete entity")
     @Test
     void delete() {
         repositoryJpa.delete(FIRST_GENRE_ID);

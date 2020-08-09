@@ -62,6 +62,7 @@ class CommentRepositoryJpaTest {
         assertEquals(1, actualComment.getBook().getId());
     }
 
+    @DisplayName("should find all entities")
     @Test
     void findAll() {
         Set<Comment> expectedComments = new HashSet<>(em.getEntityManager().createQuery("select c from Comment c", Comment.class).
@@ -72,12 +73,14 @@ class CommentRepositoryJpaTest {
         assertEquals(expectedComments, actualComments);
     }
 
+    @DisplayName("should delete entity")
     @Test
     void delete() {
         repositoryJpa.delete(FIRST_COMMENT_ID);
         assertNull(em.find(Comment.class, FIRST_COMMENT_ID));
     }
 
+    @DisplayName("should find comment by book id")
     @Test
     void findByBookId() {
         Set<Comment> expectedComments = new HashSet<>(em.find(Book.class, 1L).getComments());

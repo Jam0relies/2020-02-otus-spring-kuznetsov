@@ -60,6 +60,7 @@ class AuthorRepositoryJpaTest {
         assertEquals(newAuthor, foundAuthor);
     }
 
+    @DisplayName("should find entity by name")
     @Test
     void findByName() {
         Author expectedGenre = em.find(Author.class, FIRST_AUTHOR_ID);
@@ -67,6 +68,7 @@ class AuthorRepositoryJpaTest {
         assertEquals(expectedGenre, actualAuthor);
     }
 
+    @DisplayName("should find all entities")
     @Test
     void findAll() {
         Set<Author> expectedAuthors = new HashSet<>(em.getEntityManager().createQuery("select a from Author a", Author.class).
@@ -77,6 +79,7 @@ class AuthorRepositoryJpaTest {
         assertEquals(expectedAuthors, actualAuthors);
     }
 
+    @DisplayName("should delete entity")
     @Test
     void delete() {
         repositoryJpa.delete(FIRST_AUTHOR_ID);

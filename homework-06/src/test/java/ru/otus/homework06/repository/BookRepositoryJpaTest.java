@@ -81,6 +81,7 @@ class BookRepositoryJpaTest {
         assertEquals(EXPECTED_QUERIES_COUNT_PER_BOOK, sessionFactory.getStatistics().getPrepareStatementCount());
     }
 
+    @DisplayName("should find entity by name")
     @Test
     void findByName() {
         Book expectedBook = em.find(Book.class, FIRST_BOOK_ID);
@@ -88,6 +89,8 @@ class BookRepositoryJpaTest {
         assertEquals(expectedBook, actualBook);
     }
 
+
+    @DisplayName("should find all entities")
     @Test
     void findAll() {
         Set<Book> expectedBooks = new HashSet<>(em.getEntityManager().createQuery("select b from Book b", Book.class).
@@ -98,30 +101,35 @@ class BookRepositoryJpaTest {
         assertEquals(expectedBooks, actualBooks);
     }
 
+    @DisplayName("should delete entity")
     @Test
     void delete() {
         repositoryJpa.delete(FIRST_BOOK_ID);
         assertNull(em.find(Book.class, FIRST_BOOK_ID));
     }
 
+    @DisplayName("should delete book, but not comments")
     @Test
     void commentShouldBeDeleted() {
         repositoryJpa.delete(FIRST_BOOK_ID);
         assertNull(em.find(Comment.class, 1L));
     }
 
+    @DisplayName("should delete book, but not author")
     @Test
     void authorShouldNotBeDeleted() {
         repositoryJpa.delete(FIRST_BOOK_ID);
         assertNotNull(em.find(Author.class, 1L));
     }
 
+    @DisplayName("should delete book, but not genre")
     @Test
     void genreShouldNotBeDeleted() {
         repositoryJpa.delete(FIRST_BOOK_ID);
         assertNotNull(em.find(Genre.class, 1L));
     }
 
+    @DisplayName("should add author to book")
     @Test
     void addAuthorById() {
         repositoryJpa.addAuthorById(FIRST_BOOK_ID, 2);
@@ -130,6 +138,7 @@ class BookRepositoryJpaTest {
         assertEquals("Harold Abelson", author.getName());
     }
 
+    @DisplayName("should add author to book")
     @Test
     void addGenreById() {
         repositoryJpa.addGenreById(FIRST_BOOK_ID, 2);
