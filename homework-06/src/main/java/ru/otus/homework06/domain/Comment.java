@@ -26,7 +26,7 @@ public class Comment {
     private Instant timestamp;
 
     @NonNull
-    @ManyToOne(targetEntity = Book.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Book.class)
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 }
