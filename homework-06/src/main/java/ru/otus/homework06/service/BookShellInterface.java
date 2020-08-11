@@ -4,48 +4,67 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import org.springframework.transaction.annotation.Transactional;
+import ru.otus.homework06.domain.Author;
 import ru.otus.homework06.domain.Book;
+import ru.otus.homework06.domain.Genre;
+import ru.otus.homework06.repository.AuthorRepository;
 import ru.otus.homework06.repository.BookRepository;
+import ru.otus.homework06.repository.GenreRepository;
+
+import java.util.Set;
 
 @ShellComponent
 @RequiredArgsConstructor
 public class BookShellInterface {
-    private final BookRepository repository;
+    private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
+    private final GenreRepository genreRepository;
 
     @ShellMethod(value = "Find book by id (long id)", key = {"bookById"})
     public String getById(@ShellOption Long id) {
-        return repository.findById(id).toString();
+        return bookRepository.findById(id).toString();
     }
 
     @ShellMethod(value = "Find author by name (String name)", key = {"bookByName"})
     public String getById(@ShellOption String name) {
-        return repository.findByName(name).toString();
+        return bookRepository.findByName(name).toString();
     }
 
     @ShellMethod(value = "Add new book (String name)", key = {"addBook"})
     public String addBook(@ShellOption String name) {
         final Book book = new Book(name);
-        final Book savedBook = repository.save(book);
+        final Book savedBook = bookRepository.save(book);
         return savedBook.toString();
     }
 
     @ShellMethod(value = "Get all books", key = {"books"})
     public String getAll() {
-        return repository.findAll().toString();
+        return bookRepository.findAll().toString();
     }
 
     @ShellMethod(value = "Delete book by id (long id)", key = {"deleteBook"})
-    public String delete(@ShellOption long id) {
-        return Boolean.toString(repository.delete(id));
+    public void delete(@ShellOption long id) {
+        bookRepository.delete(id);
     }
 
     @ShellMethod(value = "Add author to book by their id's (long bookId, long authorId)", key = {"addBookAuthor"})
+    @Transactional
     public String addAuthor(long bookId, long authorId) {
-        return repository.addAuthorById(bookId, authorId).toString();
+        Author authorToAdd = authorRepository.findById(authorId).get();
+        Book book = bookRepository.findById(bookId).get();
+        Set<Author> authors = book.getAuthors();
+        authors.add(authorToAdd);
+        return book.toString();
     }
 
     @ShellMethod(value = "Add genre to book by their id's (long bookId, long authorId)", key = {"addBookGenre"})
-    public String addGenre(long bookId, long authorId) {
-        return repository.addGenreById(bookId, authorId).toString();
+    @Transactional
+    public String addGenre(long bookId, long genreId) {
+        Genre genreToAdd = genreRepository.findById(genreId).get();
+        Book book = bookRepository.findById(bookId).get();
+        Set<Genre> genres = book.getGenres();
+        genres.add(genreToAdd);
+        return book.toString();
     }
 }

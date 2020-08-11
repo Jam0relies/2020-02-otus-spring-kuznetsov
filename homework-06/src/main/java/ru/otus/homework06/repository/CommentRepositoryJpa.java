@@ -15,7 +15,6 @@ public class CommentRepositoryJpa implements CommentRepository {
     private EntityManager em;
 
     @Override
-    @Transactional
     public long count() {
         return em.createQuery("select count(c) from Comment c", Long.class).getSingleResult();
     }
@@ -32,21 +31,11 @@ public class CommentRepositoryJpa implements CommentRepository {
     }
 
     @Override
-    @Transactional
     public Optional<Comment> findById(long id) {
         return Optional.ofNullable(em.find(Comment.class, id));
     }
 
     @Override
-    @Transactional
-    public List<Comment> findByBookId(long bookId) {
-        return em.createQuery("select c from Comment c where c.book.id = :bookId", Comment.class)
-                .setParameter("bookId", bookId)
-                .getResultList();
-    }
-
-    @Override
-    @Transactional
     public List<Comment> findAll() {
         return em.createQuery("select c from Comment c", Comment.class)
                 .getResultList();
@@ -54,9 +43,8 @@ public class CommentRepositoryJpa implements CommentRepository {
 
     @Override
     @Transactional
-    public boolean delete(long id) {
-        return em.createQuery("delete from Comment c where c.id = : id")
-                .setParameter("id", id)
-                .executeUpdate() > 0;
+    public void delete(long id) {
+        Comment commentToDelete = em.find(Comment.class, id);
+        em.remove(commentToDelete);
     }
 }

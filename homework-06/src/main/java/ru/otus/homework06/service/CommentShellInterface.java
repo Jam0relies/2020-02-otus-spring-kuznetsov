@@ -6,6 +6,7 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.homework06.domain.Book;
 import ru.otus.homework06.domain.Comment;
+import ru.otus.homework06.repository.BookRepository;
 import ru.otus.homework06.repository.CommentRepository;
 
 import java.time.Instant;
@@ -13,25 +14,27 @@ import java.time.Instant;
 @ShellComponent
 @RequiredArgsConstructor
 public class CommentShellInterface {
-    private final CommentRepository repository;
+    private final CommentRepository commentRepository;
+    private final BookRepository bookRepository;
 
     @ShellMethod(value = "Find comment by id (long id)", key = {"commentById"})
     public String getById(@ShellOption long id) {
-        return repository.findById(id).toString();
+        return commentRepository.findById(id).toString();
     }
 
     @ShellMethod(value = "Find comment by book id (long id)", key = {"commentsByBookId"})
     public String getByBookId(@ShellOption long id) {
-        return repository.findByBookId(id).toString();
+        Book book = bookRepository.findById(id).get();
+        return book.getComments().toString();
     }
 
     @ShellMethod(value = "Add comment by book id (long bookId, String text)", key = {"addComment"})
     public String addComment(@ShellOption long id, @ShellOption String text) {
-        return repository.save(new Comment(0, text, Instant.now(), new Book(id))).toString();
+        return commentRepository.save(new Comment(0, text, Instant.now(), new Book(id))).toString();
     }
 
     @ShellMethod(value = "Delete comment by id (long id)", key = {"deleteComment"})
-    public String delete(@ShellOption long id) {
-        return Boolean.toString(repository.delete(id));
+    public void delete(@ShellOption long id) {
+        commentRepository.delete(id);
     }
 }

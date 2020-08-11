@@ -16,5 +16,5 @@ public interface GenreRepository {
 
     List<Genre> findAll();
 
-    boolean delete(long id);
+    void delete(long id);
 }

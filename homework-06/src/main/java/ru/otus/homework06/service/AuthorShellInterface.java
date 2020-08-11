@@ -24,8 +24,8 @@ public class AuthorShellInterface {
     }
 
     @ShellMethod(value = "Add new author (long id, String name)", key = {"addAuthor"})
-    public String addAuthor(@ShellOption long id, @ShellOption String name) {
-        final Author author = new Author(id, name);
+    public String addAuthor(@ShellOption String name) {
+        final Author author = new Author(name);
         final Author savedAuthor = authorRepository.save(author);
         return savedAuthor.toString();
     }
@@ -36,7 +36,7 @@ public class AuthorShellInterface {
     }
 
     @ShellMethod(value = "Delete author by id (long id)", key = {"deleteAuthor"})
-    public String delete(@ShellOption long id) {
-        return Boolean.toString(authorRepository.delete(id));
+    public void delete(@ShellOption long id) {
+        authorRepository.delete(id);
     }
 }
