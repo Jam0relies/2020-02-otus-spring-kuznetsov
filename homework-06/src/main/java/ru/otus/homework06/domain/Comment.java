@@ -29,4 +29,11 @@ public class Comment {
     @ManyToOne(targetEntity = Book.class)
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
+
+    public Comment(String text, Instant timestamp, Book book) {
+        this.text = text;
+        this.timestamp = timestamp;
+        this.book = book;
+    }
+
 }

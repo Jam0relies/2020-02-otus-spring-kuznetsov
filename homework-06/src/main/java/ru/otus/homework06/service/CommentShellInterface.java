@@ -30,7 +30,7 @@ public class CommentShellInterface {
 
     @ShellMethod(value = "Add comment by book id (long bookId, String text)", key = {"addComment"})
     public String addComment(@ShellOption long id, @ShellOption String text) {
-        return commentRepository.save(new Comment(0, text, Instant.now(), new Book(id))).toString();
+        return commentRepository.save(new Comment(text, Instant.now(), new Book(id))).toString();
     }
 
     @ShellMethod(value = "Delete comment by id (long id)", key = {"deleteComment"})
