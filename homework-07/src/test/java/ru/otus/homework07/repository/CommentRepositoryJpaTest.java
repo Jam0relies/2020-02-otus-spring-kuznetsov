@@ -36,7 +36,7 @@ class CommentRepositoryJpaTest {
     @DisplayName("should generate id on save")
     @Test
     void saveIdTest() {
-        Comment newComment = new Comment(0, "sometext", Instant.now(), new Book(1));
+        Comment newComment = new Comment("sometext", Instant.now(), new Book(1));
         repositoryJpa.save(newComment);
         assertNotEquals(0, newComment.getId());
     }
@@ -44,7 +44,7 @@ class CommentRepositoryJpaTest {
     @DisplayName("should persist entity")
     @Test
     void save() {
-        Comment newComment = new Comment(0, "sometext", Instant.now(), new Book(1));
+        Comment newComment = new Comment("sometext", Instant.now(), new Book(1));
         repositoryJpa.save(newComment);
         Comment foundComment = em.find(Comment.class, newComment.getId());
         em.refresh(foundComment);
