@@ -3,6 +3,7 @@ spring:
     initialization-mode: always
     schema: schema.sql
     data: data.sql
+    url: jdbc:h2:mem:testdb
   shell:
     interactive:
       enabled: false

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.homework06.domain.Book;
 import ru.otus.homework06.domain.Comment;
 import ru.otus.homework06.repository.BookRepository;
@@ -22,6 +23,7 @@ public class CommentShellInterface {
         return commentRepository.findById(id).toString();
     }
 
+    @Transactional(readOnly = true)
     @ShellMethod(value = "Find comment by book id (long id)", key = {"commentsByBookId"})
     public String getByBookId(@ShellOption long id) {
         Book book = bookRepository.findById(id).get();
