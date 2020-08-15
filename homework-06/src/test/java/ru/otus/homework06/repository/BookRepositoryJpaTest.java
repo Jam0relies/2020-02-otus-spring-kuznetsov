@@ -128,22 +128,4 @@ class BookRepositoryJpaTest {
         repositoryJpa.delete(FIRST_BOOK_ID);
         assertNotNull(em.find(Genre.class, 1L));
     }
-
-    @DisplayName("should add author to book")
-    @Test
-    void addAuthorById() {
-        repositoryJpa.addAuthorById(FIRST_BOOK_ID, 2);
-        Book book = em.find(Book.class, FIRST_BOOK_ID);
-        Author author = book.getAuthors().stream().filter(a -> a.getId() == 2).findAny().get();
-        assertEquals("Harold Abelson", author.getName());
-    }
-
-    @DisplayName("should add author to book")
-    @Test
-    void addGenreById() {
-        repositoryJpa.addGenreById(FIRST_BOOK_ID, 2);
-        Book book = em.find(Book.class, FIRST_BOOK_ID);
-        Genre genre = book.getGenres().stream().filter(g -> g.getId() == 2).findAny().get();
-        assertEquals("Religion", genre.getName());
-    }
 }

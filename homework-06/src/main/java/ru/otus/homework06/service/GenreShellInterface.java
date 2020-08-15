@@ -24,8 +24,8 @@ public class GenreShellInterface {
     }
 
     @ShellMethod(value = "Add new genre (long id, String name)", key = {"addGenre"})
-    public String addGenre(@ShellOption long id, @ShellOption String name) {
-        final Genre genre = new Genre(id, name);
+    public String addGenre(@ShellOption String name) {
+        final Genre genre = new Genre(name);
         final Genre savedGenre = repository.save(genre);
         return savedGenre.toString();
     }
@@ -36,7 +36,7 @@ public class GenreShellInterface {
     }
 
     @ShellMethod(value = "Delete genre by id (long id)", key = {"deleteGenre"})
-    public String delete(@ShellOption long id) {
-        return Boolean.toString(repository.delete(id));
+    public void delete(@ShellOption long id) {
+        repository.delete(id);
     }
 }

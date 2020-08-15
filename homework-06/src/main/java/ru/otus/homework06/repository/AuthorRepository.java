@@ -16,5 +16,5 @@ public interface AuthorRepository {
 
     List<Author> findAll();
 
-    boolean delete(long id);
+    void delete(long id);
 }

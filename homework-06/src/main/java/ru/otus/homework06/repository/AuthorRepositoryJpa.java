@@ -1,11 +1,11 @@
 package ru.otus.homework06.repository;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.homework06.domain.Author;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,13 +15,11 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     private EntityManager em;
 
     @Override
-    @Transactional
     public Optional<Author> findById(long id) {
         return Optional.ofNullable(em.find(Author.class, id));
     }
 
     @Override
-    @Transactional
     public long count() {
         return em.createQuery("select count(a) from Author a", Long.class).getSingleResult();
     }
@@ -38,14 +36,12 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     }
 
     @Override
-    @Transactional
     public List<Author> findByName(String name) {
         return em.createQuery("select a from Author a where a.name = :name", Author.class)
                 .setParameter("name", name).getResultList();
     }
 
     @Override
-    @Transactional
     public List<Author> findAll() {
         return em.createQuery("select a from Author a", Author.class)
                 .getResultList();
@@ -53,9 +49,8 @@ public class AuthorRepositoryJpa implements AuthorRepository {
 
     @Override
     @Transactional
-    public boolean delete(long id) {
-        return em.createQuery("delete from Author a where a.id = : id")
-                .setParameter("id", id)
-                .executeUpdate() > 0;
+    public void delete(long id) {
+        Author authorToRemove = em.find(Author.class, id);
+        em.remove(authorToRemove);
     }
 }

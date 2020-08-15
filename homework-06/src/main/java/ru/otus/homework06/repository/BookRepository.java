@@ -16,9 +16,5 @@ public interface BookRepository {
 
     List<Book> findAll();
 
-    boolean delete(long id);
-
-    Book addAuthorById(long bookId, long authorId);
-
-    Book addGenreById(long bookId, long genreId);
+    void delete(long id);
 }
