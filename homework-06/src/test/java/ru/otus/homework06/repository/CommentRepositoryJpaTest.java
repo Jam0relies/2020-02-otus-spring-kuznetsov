@@ -50,8 +50,6 @@ class CommentRepositoryJpaTest {
         repositoryJpa.save(newComment);
         Comment foundComment = em.find(Comment.class, newComment.getId());
         assertEquals(newComment, foundComment);
-        em.flush();
-        assertEquals("Hamlet", foundComment.getBook().getName());
     }
 
     @DisplayName("should find entity by id")
