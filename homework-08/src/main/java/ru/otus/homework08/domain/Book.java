@@ -1,4 +1,4 @@
-package ru.otus.homework07.domain;
+package ru.otus.homework08.domain;
 
 import lombok.*;
 

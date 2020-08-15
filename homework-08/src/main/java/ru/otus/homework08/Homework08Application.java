@@ -1,13 +1,13 @@
-package ru.otus.homework07;
+package ru.otus.homework08;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Homework07Application {
+public class Homework08Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(Homework07Application.class, args);
+        SpringApplication.run(Homework08Application.class, args);
     }
 
 }

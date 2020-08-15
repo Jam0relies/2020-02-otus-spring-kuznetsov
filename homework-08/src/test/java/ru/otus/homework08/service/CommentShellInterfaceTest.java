@@ -1,4 +1,4 @@
-package ru.otus.homework07.service;
+package ru.otus.homework08.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

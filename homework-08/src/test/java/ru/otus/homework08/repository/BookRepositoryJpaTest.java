@@ -1,4 +1,4 @@
-package ru.otus.homework07.repository;
+package ru.otus.homework08.repository;
 
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import ru.otus.homework07.domain.Author;
-import ru.otus.homework07.domain.Book;
-import ru.otus.homework07.domain.Comment;
-import ru.otus.homework07.domain.Genre;
+import ru.otus.homework08.domain.Author;
+import ru.otus.homework08.domain.Book;
+import ru.otus.homework08.domain.Comment;
+import ru.otus.homework08.domain.Genre;
 
 import java.util.HashSet;
 import java.util.List;
