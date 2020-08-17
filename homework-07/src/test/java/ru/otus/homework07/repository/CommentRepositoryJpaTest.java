@@ -79,14 +79,4 @@ class CommentRepositoryJpaTest {
         repositoryJpa.deleteById(FIRST_COMMENT_ID);
         assertNull(em.find(Comment.class, FIRST_COMMENT_ID));
     }
-
-    @DisplayName("should find comment by book id")
-    @Test
-    void findByBookId() {
-        Set<Comment> expectedComments = new HashSet<>(em.find(Book.class, 1L).getComments());
-        List<Comment> actualCommentList = repositoryJpa.findByBookId(1);
-        Set<Comment> actualComments = new HashSet<>(actualCommentList);
-        assertEquals(actualComments.size(), actualCommentList.size());
-        assertEquals(expectedComments, actualComments);
-    }
 }

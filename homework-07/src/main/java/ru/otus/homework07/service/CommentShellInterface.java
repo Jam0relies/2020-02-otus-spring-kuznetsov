@@ -23,9 +23,11 @@ public class CommentShellInterface {
         return commentRepository.findById(id).toString();
     }
 
+    @Transactional(readOnly = true)
     @ShellMethod(value = "Find comment by book id (long id)", key = {"commentsByBookId"})
-    public String getByBookId(@ShellOption long id) {
-        return commentRepository.findByBookId(id).toString();
+    public String getByBookId(@ShellOption long bookId) {
+        Book book = bookRepository.getOne(bookId);
+        return book.getComments().toString();
     }
 
     @Transactional
