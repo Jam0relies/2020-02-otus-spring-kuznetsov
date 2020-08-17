@@ -1,8 +1,9 @@
 package ru.otus.homework08.domain;
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.time.Instant;
 
 @Data
@@ -10,25 +11,19 @@ import java.time.Instant;
 @EqualsAndHashCode(of = {"id"})
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "comments")
+@Document(collection = "comments")
 public class Comment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private String id;
 
     @NonNull
-    @Column(name = "text", nullable = false)
     private String text;
 
     @NonNull
-    @Column(name = "timestamp", nullable = false)
     private Instant timestamp;
 
     @NonNull
-    @ManyToOne(targetEntity = Book.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
     public Comment(String text, Instant timestamp, Book book) {

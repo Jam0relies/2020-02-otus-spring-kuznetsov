@@ -19,13 +19,13 @@ public class BookShellInterface {
     private final GenreRepository genreRepository;
     private final AuthorRepository authorRepository;
 
-    @ShellMethod(value = "Find book by id (long id)", key = {"bookById"})
-    public String getById(@ShellOption Long id) {
-        return bookRepository.findById(id).toString();
+    @ShellMethod(value = "Find book by id (String id)", key = {"bookById"})
+    public String getById(@ShellOption String id) {
+        return bookRepository.findById(id).get().toString();
     }
 
     @ShellMethod(value = "Find author by name (String name)", key = {"bookByName"})
-    public String getById(@ShellOption String name) {
+    public String getByName(@ShellOption String name) {
         return bookRepository.findByName(name).toString();
     }
 
@@ -41,25 +41,25 @@ public class BookShellInterface {
         return bookRepository.findAll().toString();
     }
 
-    @ShellMethod(value = "Delete book by id (long id)", key = {"deleteBook"})
-    public void delete(@ShellOption long id) {
+    @ShellMethod(value = "Delete book by id (String id)", key = {"deleteBook"})
+    public void delete(@ShellOption String id) {
         bookRepository.deleteById(id);
     }
 
     @Transactional
     @ShellMethod(value = "Add author to book by their id's (long bookId, long authorId)", key = {"addBookAuthor"})
-    public String addAuthor(long bookId, long authorId) {
-        Book book = bookRepository.getOne(bookId);
-        Author author = authorRepository.getOne(authorId);
+    public String addAuthor(String bookId, String authorId) {
+        Book book = bookRepository.findById(bookId).get();
+        Author author = authorRepository.findById(authorId).get();
         book.getAuthors().add(author);
         return book.toString();
     }
 
     @Transactional
     @ShellMethod(value = "Add genre to book by their id's (long bookId, long authorId)", key = {"addBookGenre"})
-    public String addGenre(long bookId, long genreId) {
-        Book book = bookRepository.getOne(bookId);
-        Genre genre = genreRepository.getOne(genreId);
+    public String addGenre(String bookId, String genreId) {
+        Book book = bookRepository.findById(bookId).get();
+        Genre genre = genreRepository.findById(genreId).get();
         book.getGenres().add(genre);
         return book.toString();
     }

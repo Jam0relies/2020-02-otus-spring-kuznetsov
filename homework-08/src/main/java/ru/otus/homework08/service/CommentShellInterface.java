@@ -18,25 +18,25 @@ public class CommentShellInterface {
     private final CommentRepository commentRepository;
     private final BookRepository bookRepository;
 
-    @ShellMethod(value = "Find comment by id (long id)", key = {"commentById"})
-    public String getById(@ShellOption long id) {
+    @ShellMethod(value = "Find comment by id (String id)", key = {"commentById"})
+    public String getById(@ShellOption String id) {
         return commentRepository.findById(id).toString();
     }
 
-    @ShellMethod(value = "Find comment by book id (long id)", key = {"commentsByBookId"})
-    public String getByBookId(@ShellOption long id) {
+    @ShellMethod(value = "Find comment by book id (String id)", key = {"commentsByBookId"})
+    public String getByBookId(@ShellOption String id) {
         return commentRepository.findByBookId(id).toString();
     }
 
     @Transactional
-    @ShellMethod(value = "Add comment by book id (long bookId, String text)", key = {"addComment"})
-    public String addComment(@ShellOption long bookId, @ShellOption String text) {
-        Book book = bookRepository.getOne(bookId);
+    @ShellMethod(value = "Add comment by book id (String bookId, String text)", key = {"addComment"})
+    public String addComment(@ShellOption String bookId, @ShellOption String text) {
+        Book book = bookRepository.findById(bookId).get();
         return commentRepository.save(new Comment(text, Instant.now(), book)).toString();
     }
 
-    @ShellMethod(value = "Delete comment by id (long id)", key = {"deleteComment"})
-    public void delete(@ShellOption long id) {
+    @ShellMethod(value = "Delete comment by id (String id)", key = {"deleteComment"})
+    public void delete(@ShellOption String id) {
         commentRepository.deleteById(id);
     }
 }

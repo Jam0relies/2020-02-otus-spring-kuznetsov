@@ -13,19 +13,19 @@ import ru.otus.homework08.repository.AuthorRepository;
 public class AuthorShellInterface {
     private final AuthorRepository authorRepository;
 
-    @ShellMethod(value = "Find author by id (long id)", key = {"authorById"})
-    public String getById(@ShellOption Long id) {
+    @ShellMethod(value = "Find author by id (String id)", key = {"authorById"})
+    public String getById(@ShellOption String id) {
         return authorRepository.findById(id).toString();
     }
 
     @ShellMethod(value = "Find author by name (String name)", key = {"authorByName"})
-    public String getById(@ShellOption String name) {
+    public String getByName(@ShellOption String name) {
         return authorRepository.findByName(name).toString();
     }
 
-    @ShellMethod(value = "Add new author (long id, String name)", key = {"addAuthor"})
-    public String addAuthor(@ShellOption long id, @ShellOption String name) {
-        final Author author = new Author(id, name);
+    @ShellMethod(value = "Add new author (String name)", key = {"addAuthor"})
+    public String addAuthor(@ShellOption String name) {
+        final Author author = new Author(name);
         final Author savedAuthor = authorRepository.save(author);
         return savedAuthor.toString();
     }
@@ -35,8 +35,8 @@ public class AuthorShellInterface {
         return authorRepository.findAll().toString();
     }
 
-    @ShellMethod(value = "Delete author by id (long id)", key = {"deleteAuthor"})
-    public void delete(@ShellOption long id) {
+    @ShellMethod(value = "Delete author by id (String id)", key = {"deleteAuthor"})
+    public void delete(@ShellOption String id) {
         authorRepository.deleteById(id);
     }
 }

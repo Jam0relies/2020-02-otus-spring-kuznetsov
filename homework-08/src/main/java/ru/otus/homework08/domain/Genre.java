@@ -3,20 +3,20 @@ package ru.otus.homework08.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "genres")
+@Document(collection = "genres")
 public class Genre {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(name = "name", nullable = false)
+    private String id;
     private String name;
+
+    public Genre(String name) {
+        this.name = name;
+    }
 }

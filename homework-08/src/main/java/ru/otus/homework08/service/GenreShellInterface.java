@@ -13,19 +13,19 @@ import ru.otus.homework08.repository.GenreRepository;
 public class GenreShellInterface {
     private final GenreRepository repository;
 
-    @ShellMethod(value = "Find genre by id (long id)", key = {"genreById"})
-    public String getById(@ShellOption Long id) {
+    @ShellMethod(value = "Find genre by id (String id)", key = {"genreById"})
+    public String getById(@ShellOption String id) {
         return repository.findById(id).toString();
     }
 
     @ShellMethod(value = "Find genre by name (String name)", key = {"genreByName"})
-    public String getById(@ShellOption String name) {
+    public String getByName(@ShellOption String name) {
         return repository.findByName(name).toString();
     }
 
-    @ShellMethod(value = "Add new genre (long id, String name)", key = {"addGenre"})
-    public String addGenre(@ShellOption long id, @ShellOption String name) {
-        final Genre genre = new Genre(id, name);
+    @ShellMethod(value = "Add new genre (String name)", key = {"addGenre"})
+    public String addGenre(@ShellOption String name) {
+        final Genre genre = new Genre(name);
         final Genre savedGenre = repository.save(genre);
         return savedGenre.toString();
     }
@@ -35,8 +35,8 @@ public class GenreShellInterface {
         return repository.findAll().toString();
     }
 
-    @ShellMethod(value = "Delete genre by id (long id)", key = {"deleteGenre"})
-    public void delete(@ShellOption long id) {
+    @ShellMethod(value = "Delete genre by id (String id)", key = {"deleteGenre"})
+    public void delete(@ShellOption String id) {
         repository.deleteById(id);
     }
 }
