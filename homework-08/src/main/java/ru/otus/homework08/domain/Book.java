@@ -5,10 +5,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Data
 @EqualsAndHashCode(of = {"id"})
@@ -18,7 +18,7 @@ import java.util.Set;
 @Document(collection = "books")
 public class Book {
     @Id
-    private long id;
+    private String id;
 
     private String name;
 
@@ -31,14 +31,10 @@ public class Book {
     private Set<Genre> genres = new HashSet<>();
 
     @NonNull
-    @DBRef(lazy = true)
-    private List<Comment> comments = new ArrayList<>();
+//    @DBRef(lazy = true)
+    private HashMap<UUID, Comment> comments = new HashMap<>();
 
     public Book(String name) {
         this.name = "name";
-    }
-
-    public Book(long id) {
-        this.id = id;
     }
 }

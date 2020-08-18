@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.homework08.domain.Author;
 import ru.otus.homework08.domain.Book;
 import ru.otus.homework08.domain.Genre;
@@ -46,21 +45,22 @@ public class BookShellInterface {
         bookRepository.deleteById(id);
     }
 
-    @Transactional
     @ShellMethod(value = "Add author to book by their id's (long bookId, long authorId)", key = {"addBookAuthor"})
-    public String addAuthor(String bookId, String authorId) {
+    public String addAuthor(@ShellOption String bookId, @ShellOption String authorId) {
         Book book = bookRepository.findById(bookId).get();
         Author author = authorRepository.findById(authorId).get();
         book.getAuthors().add(author);
+        System.out.println(book);
+        bookRepository.save(book);
         return book.toString();
     }
 
-    @Transactional
     @ShellMethod(value = "Add genre to book by their id's (long bookId, long authorId)", key = {"addBookGenre"})
-    public String addGenre(String bookId, String genreId) {
+    public String addGenre(@ShellOption String bookId, @ShellOption String genreId) {
         Book book = bookRepository.findById(bookId).get();
         Genre genre = genreRepository.findById(genreId).get();
         book.getGenres().add(genre);
+        bookRepository.save(book);
         return book.toString();
     }
 }

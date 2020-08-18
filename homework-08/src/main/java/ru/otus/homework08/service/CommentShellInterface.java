@@ -1,6 +1,7 @@
 package ru.otus.homework08.service;
 
 import lombok.RequiredArgsConstructor;
+import org.bson.internal.UuidHelper;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
@@ -8,35 +9,35 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.homework08.domain.Book;
 import ru.otus.homework08.domain.Comment;
 import ru.otus.homework08.repository.BookRepository;
-import ru.otus.homework08.repository.CommentRepository;
+
 
 import java.time.Instant;
+import java.util.UUID;
 
 @ShellComponent
 @RequiredArgsConstructor
 public class CommentShellInterface {
-    private final CommentRepository commentRepository;
     private final BookRepository bookRepository;
 
-    @ShellMethod(value = "Find comment by id (String id)", key = {"commentById"})
-    public String getById(@ShellOption String id) {
-        return commentRepository.findById(id).toString();
+    @ShellMethod(value = "Find comment by book id (String bookId, String commentId)", key = {"commentsByBookId"})
+    public String getByBookId(@ShellOption String bookId, @ShellOption UUID commentId) {
+        return bookRepository.findById(bookId).get().getComments().get(commentId).toString();
     }
 
-    @ShellMethod(value = "Find comment by book id (String id)", key = {"commentsByBookId"})
-    public String getByBookId(@ShellOption String id) {
-        return commentRepository.findByBookId(id).toString();
-    }
-
-    @Transactional
     @ShellMethod(value = "Add comment by book id (String bookId, String text)", key = {"addComment"})
     public String addComment(@ShellOption String bookId, @ShellOption String text) {
         Book book = bookRepository.findById(bookId).get();
-        return commentRepository.save(new Comment(text, Instant.now(), book)).toString();
+        Comment comment = new Comment(text, Instant.now());
+        UUID id = UUID.randomUUID();
+        book.getComments().put(id, comment);
+        bookRepository.save(book);
+        return id + " " + comment.toString();
     }
 
-    @ShellMethod(value = "Delete comment by id (String id)", key = {"deleteComment"})
-    public void delete(@ShellOption String id) {
-        commentRepository.deleteById(id);
+    @ShellMethod(value = "Delete comment from book by id (String bookId, UUID commentId)", key = {"deleteComment"})
+    public void delete(@ShellOption String bookId, @ShellOption UUID commentId) {
+        Book book = bookRepository.findById(bookId).get();
+        book.getComments().remove(commentId);
+        bookRepository.save(book);
     }
 }
