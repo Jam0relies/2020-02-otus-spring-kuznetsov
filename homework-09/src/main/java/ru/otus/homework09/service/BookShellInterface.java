@@ -1,16 +1,16 @@
-package ru.otus.homework07.service;
+package ru.otus.homework09.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.homework07.domain.Author;
-import ru.otus.homework07.domain.Book;
-import ru.otus.homework07.domain.Genre;
-import ru.otus.homework07.repository.AuthorRepository;
-import ru.otus.homework07.repository.BookRepository;
-import ru.otus.homework07.repository.GenreRepository;
+import ru.otus.homework09.domain.Author;
+import ru.otus.homework09.domain.Book;
+import ru.otus.homework09.domain.Genre;
+import ru.otus.homework09.repository.AuthorRepository;
+import ru.otus.homework09.repository.BookRepository;
+import ru.otus.homework09.repository.GenreRepository;
 
 @ShellComponent
 @RequiredArgsConstructor

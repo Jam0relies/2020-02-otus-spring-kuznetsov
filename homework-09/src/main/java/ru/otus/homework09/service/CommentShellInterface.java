@@ -1,14 +1,14 @@
-package ru.otus.homework07.service;
+package ru.otus.homework09.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.homework07.domain.Book;
-import ru.otus.homework07.domain.Comment;
-import ru.otus.homework07.repository.BookRepository;
-import ru.otus.homework07.repository.CommentRepository;
+import ru.otus.homework09.domain.Book;
+import ru.otus.homework09.domain.Comment;
+import ru.otus.homework09.repository.BookRepository;
+import ru.otus.homework09.repository.CommentRepository;
 
 import java.time.Instant;
 

@@ -1,13 +1,13 @@
-package ru.otus.homework07.service;
+package ru.otus.homework09.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.shell.Shell;
-import ru.otus.homework07.domain.Author;
-import ru.otus.homework07.domain.Book;
-import ru.otus.homework07.domain.Genre;
+import ru.otus.homework09.domain.Author;
+import ru.otus.homework09.domain.Book;
+import ru.otus.homework09.domain.Genre;
 
 import javax.persistence.EntityManager;
 

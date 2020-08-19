@@ -1,7 +1,7 @@
-package ru.otus.homework07.repository;
+package ru.otus.homework09.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.otus.homework07.domain.Author;
+import ru.otus.homework09.domain.Author;
 
 import java.util.List;
 
