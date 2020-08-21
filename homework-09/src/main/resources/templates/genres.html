@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Genres</title>
+    <link rel="stylesheet" type="text/css" href="/style.css" media="screen"/>
+</head>
+<body>
+<table>
+    <div th:insert="header :: header"></div>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="genre : ${genres}">
+        <td th:text="${genre.id}"></td>
+        <td th:text="${genre.name}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

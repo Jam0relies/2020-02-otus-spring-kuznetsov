@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Authors</title>
+    <link rel="stylesheet" type="text/css" href="/style.css" media="screen"/>
+</head>
+<body>
+<table>
+    <div th:insert="header :: header"></div>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="author : ${authors}">
+        <td th:text="${author.id}"></td>
+        <td th:text="${author.name}"></td>
+        <!--        <td><button th:action="@{/books/{id}/delete(id=${})"></button></td>-->
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
