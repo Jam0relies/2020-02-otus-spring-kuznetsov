@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.otus.homework09.domain.Author;
 import ru.otus.homework09.domain.Book;
+import ru.otus.homework09.domain.Comment;
 import ru.otus.homework09.domain.Genre;
 import ru.otus.homework09.service.AuthorService;
 import ru.otus.homework09.service.BookService;
+import ru.otus.homework09.service.CommentService;
 import ru.otus.homework09.service.GenreService;
 
 import java.util.List;
@@ -20,11 +22,13 @@ public class BookInfoPageController {
     private final BookService bookService;
     private final GenreService genreService;
     private final AuthorService authorService;
+    private final CommentService commentService;
 
-    public BookInfoPageController(BookService bookService, GenreService genreService, AuthorService authorService) {
+    public BookInfoPageController(BookService bookService, GenreService genreService, AuthorService authorService, CommentService commentService) {
         this.bookService = bookService;
         this.genreService = genreService;
         this.authorService = authorService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/books/{bookId}")
@@ -39,6 +43,7 @@ public class BookInfoPageController {
         genres.removeAll(book.getGenres());
         model.addAttribute("genres", genres);
         model.addAttribute("genreToAdd", new Genre());
+        model.addAttribute("commentToAdd", new Comment());
         return "book-info";
     }
 
@@ -63,6 +68,12 @@ public class BookInfoPageController {
     @PostMapping("/books/{bookId}/authors")
     public String addAuthor(@PathVariable long bookId, @ModelAttribute("authorToAdd") Author genreToAdd) {
         bookService.addAuthor(bookId, genreToAdd.getId());
+        return "redirect:/books/" + bookId;
+    }
+
+    @PostMapping("/books/{bookId}/comments")
+    public String addComment(@PathVariable long bookId, @ModelAttribute("commentToAdd") Comment comment) {
+        commentService.addComment(bookId, comment.getText());
         return "redirect:/books/" + bookId;
     }
 }

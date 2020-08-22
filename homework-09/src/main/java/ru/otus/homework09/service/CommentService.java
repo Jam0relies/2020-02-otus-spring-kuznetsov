@@ -1,6 +1,7 @@
 package ru.otus.homework09.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.homework09.domain.Book;
 import ru.otus.homework09.domain.Comment;
@@ -9,9 +10,9 @@ import ru.otus.homework09.repository.CommentRepository;
 
 import java.time.Instant;
 
-//@ShellComponent
+@Service
 @RequiredArgsConstructor
-public class CommentShellInterface {
+public class CommentService {
     private final CommentRepository commentRepository;
     private final BookRepository bookRepository;
 
