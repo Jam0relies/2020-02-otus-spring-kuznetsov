@@ -6,8 +6,12 @@
     <link rel="stylesheet" type="text/css" href="/style.css" media="screen"/>
 </head>
 <body>
+<div th:insert="header :: header"></div>
+<form action="#" th:action="@{/authors}" th:object="${authorToAdd}" method="post">
+    <input type="text" th:field="*{name}"/>
+    <button type="submit">add</button>
+</form>
 <table>
-    <div th:insert="header :: header"></div>
     <thead>
     <tr>
         <th>Id</th>
@@ -18,7 +22,11 @@
     <tr th:each="author : ${authors}">
         <td th:text="${author.id}"></td>
         <td th:text="${author.name}"></td>
-        <!--        <td><button th:action="@{/books/{id}/delete(id=${})"></button></td>-->
+        <td>
+            <form action="#" th:action="@{/authors/{authorId}/delete (authorId=${author.id})}" method="post">
+                <button type="submit">delete</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
