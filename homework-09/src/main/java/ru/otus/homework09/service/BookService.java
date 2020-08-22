@@ -20,17 +20,14 @@ public class BookService {
     private final GenreRepository genreRepository;
     private final AuthorRepository authorRepository;
 
-    //    @ShellMethod(value = "Find book by id (long id)", key = {"bookById"})
     public Book getById(long id) {
         return bookRepository.getOne(id);
     }
 
-    //    @ShellMethod(value = "Find author by name (String name)", key = {"bookByName"})
     public String getById(String name) {
         return bookRepository.findByName(name).toString();
     }
 
-    //    @ShellMethod(value = "Add new book (String name)", key = {"addBook"})
     public Book addBook(String name) {
         final Book book = new Book(name);
         final Book savedBook = bookRepository.save(book);
@@ -38,12 +35,10 @@ public class BookService {
     }
 
 
-    //    @ShellMethod(value = "Get all books", key = {"books"})
     public List<Book> getAll() {
         return bookRepository.findAll();
     }
 
-    //    @ShellMethod(value = "Delete book by id (long id)", key = {"deleteBook"})
     public void delete(long id) {
         bookRepository.deleteById(id);
     }
