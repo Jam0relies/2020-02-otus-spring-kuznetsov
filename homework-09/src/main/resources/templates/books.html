@@ -6,8 +6,11 @@
     <link rel="stylesheet" type="text/css" href="/style.css" media="screen"/>
 </head>
 <body>
-<form th:action="@{books}" th:object="${bookToAdd}" method="post">
-    <input></form>
+<form action="#" th:action="@{/books}" th:object="${bookToAdd}" method="post">
+    <input type="text" th:field="*{name}"/>
+    <button type="submit">add</button>
+</form>
+
 </form>
 <table>
     <div th:insert="header :: header"></div>
@@ -21,7 +24,7 @@
     </thead>
     <tbody>
     <tr th:each="book : ${books}">
-        <td th:text="${book.id}">123456</td>
+        <td><a th:href="@{/books/{id}(id=${book.id})}" th:text="${book.id}">123456</a></td>
         <td th:text="${book.name}">Book name</td>
         <td>
             <ul>
@@ -34,7 +37,7 @@
             </ul>
         </td>
         <td>
-            <form th:action="@{/books/{id}/delete(id=${book.id})}" method="post">
+            <form action="#" th:action="@{/books/{id}/delete(id=${book.id})}" method="post">
                 <button type="submit">delete</button>
             </form>
         </td>

@@ -21,8 +21,8 @@ public class BookService {
     private final AuthorRepository authorRepository;
 
     //    @ShellMethod(value = "Find book by id (long id)", key = {"bookById"})
-    public String getById(Long id) {
-        return bookRepository.findById(id).toString();
+    public Book getById(long id) {
+        return bookRepository.getOne(id);
     }
 
     //    @ShellMethod(value = "Find author by name (String name)", key = {"bookByName"})
@@ -31,11 +31,12 @@ public class BookService {
     }
 
     //    @ShellMethod(value = "Add new book (String name)", key = {"addBook"})
-    public String addBook(String name) {
+    public Book addBook(String name) {
         final Book book = new Book(name);
         final Book savedBook = bookRepository.save(book);
-        return savedBook.toString();
+        return savedBook;
     }
+
 
     //    @ShellMethod(value = "Get all books", key = {"books"})
     public List<Book> getAll() {
@@ -48,20 +49,34 @@ public class BookService {
     }
 
     @Transactional
-//    @ShellMethod(value = "Add author to book by their id's (long bookId, long authorId)", key = {"addBookAuthor"})
-    public String addAuthor(long bookId, long authorId) {
+    public Book addAuthor(long bookId, long authorId) {
         Book book = bookRepository.getOne(bookId);
         Author author = authorRepository.getOne(authorId);
         book.getAuthors().add(author);
-        return book.toString();
+        return book;
     }
 
     @Transactional
-//    @ShellMethod(value = "Add genre to book by their id's (long bookId, long authorId)", key = {"addBookGenre"})
-    public String addGenre(long bookId, long genreId) {
+    public Book removeAuthor(long bookId, long authorId) {
+        Book book = bookRepository.getOne(bookId);
+        Author author = authorRepository.getOne(authorId);
+        book.getAuthors().remove(author);
+        return book;
+    }
+
+    @Transactional
+    public Book addGenre(long bookId, long genreId) {
         Book book = bookRepository.getOne(bookId);
         Genre genre = genreRepository.getOne(genreId);
         book.getGenres().add(genre);
-        return book.toString();
+        return book;
+    }
+
+    @Transactional
+    public Book removeGenre(long bookId, long genreId) {
+        Book book = bookRepository.getOne(bookId);
+        Genre genre = genreRepository.getOne(genreId);
+        book.getGenres().remove(genre);
+        return book;
     }
 }

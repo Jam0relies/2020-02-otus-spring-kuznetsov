@@ -42,7 +42,7 @@ public class Book {
     private List<Comment> comments = new ArrayList<>();
 
     public Book(String name) {
-        this.name = "name";
+        this.name = name;
     }
 
     public Book(long id) {

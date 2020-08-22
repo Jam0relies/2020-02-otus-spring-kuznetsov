@@ -3,16 +3,17 @@ package ru.otus.homework09.page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.otus.homework09.domain.Book;
 import ru.otus.homework09.service.BookService;
 
 @Controller
-public class BookPageController {
+public class BooksPageController {
     private final BookService bookService;
 
-    public BookPageController(BookService bookService) {
+    public BooksPageController(BookService bookService) {
         this.bookService = bookService;
     }
 
@@ -30,7 +31,8 @@ public class BookPageController {
     }
 
     @PostMapping("/books")
-    public String add(Model model) {
-        return null;
+    public String add(@ModelAttribute("bookToAdd") Book bookToAdd) {
+        bookService.addBook(bookToAdd.getName());
+        return "redirect:/books";
     }
 }
