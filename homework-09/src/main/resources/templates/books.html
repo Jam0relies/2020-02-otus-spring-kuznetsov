@@ -6,13 +6,13 @@
     <link rel="stylesheet" type="text/css" href="/style.css" media="screen"/>
 </head>
 <body>
+<div th:insert="header :: header"></div>
 <form action="#" th:action="@{/books}" th:object="${bookToAdd}" method="post">
     <input type="text" th:field="*{name}"/>
     <button type="submit">add</button>
 </form>
 </form>
 <table>
-    <div th:insert="header :: header"></div>
     <thead>
     <tr>
         <th>Id</th>
