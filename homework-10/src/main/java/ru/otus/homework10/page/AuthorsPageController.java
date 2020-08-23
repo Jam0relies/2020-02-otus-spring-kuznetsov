@@ -3,7 +3,6 @@ package ru.otus.homework10.page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.otus.homework10.domain.Author;
@@ -30,9 +29,9 @@ public class AuthorsPageController {
         return "redirect:/authors";
     }
 
-    @PostMapping("/authors")
-    public String add(@ModelAttribute("authorToAdd") Author authorToAdd) {
-        authorService.addAuthor(authorToAdd.getName());
-        return "redirect:/authors";
-    }
+//    @PostMapping("/authors")
+//    public String add(@ModelAttribute("authorToAdd") Author authorToAdd) {
+//        authorService.addAuthor(authorToAdd.getName());
+//        return "redirect:/authors";
+//    }
 }

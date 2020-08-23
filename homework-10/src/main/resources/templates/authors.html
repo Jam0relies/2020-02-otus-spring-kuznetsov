@@ -9,9 +9,12 @@
 </head>
 <body>
 <div th:insert="header :: header"></div>
-<form action="#" th:action="@{/authors}" th:object="${authorToAdd}" method="post">
-    <input type="text" th:field="*{name}"/>
-    <button type="submit">add</button>
+<form id="author-form" v-on:submit.prevent="addAuthor">
+    <label>
+        Author name
+        <input type="text" v-model="newAuthor.name" @submit.prevent/>
+    </label>
+    <button>Add</button>
 </form>
 <table class="authors" id="authors-table">
     <thead>
@@ -25,30 +28,18 @@
         <td>{{ author.id }}</td>
         <td>{{ author.name }}</td>
         <td>
-            <button @click="removeAuthor(author)">Удалить</button>
+            <button @click="removeAuthor(author)">Delete</button>
         </td>
     </tr>
-    <!--    <tr th:each="author : ${authors}">-->
-    <!--        <td th:text="${author.id}"></td>-->
-    <!--        <td th:text="${author.name}"></td>-->
-    <!--        <td>-->
-    <!--            <form action="#" th:action="@{/authors/{authorId}/delete (authorId=${author.id})}" method="post">-->
-    <!--                <button type="submit">delete</button>-->
-    <!--            </form>-->
-    <!--        </td>-->
-    <!--    </tr>-->
     </tbody>
 </table>
 <script>
-    // fetch, ES6, Vue
-    // fetch('/api/authors')
-    //     .then(response => response.json())
-    //     .then(authors => {
     Vue.prototype.$http = axios;
-    new Vue({
+    let bus = new Vue()
+    const authors = new Vue({
         el: '#authors-table',
         data: {
-            authors: []
+            authors: [],
         },
         methods: {
             removeAuthor(author) {
@@ -60,13 +51,33 @@
                     .then(authors => {
                         this.authors = authors;
                     })
-            }
+            },
         },
         mounted: function () {
             this.updateAuthors();
+        },
+        created: function () {
+            bus.$on('authorsChanged', () => {
+                this.updateAuthors();
+            })
         }
-    })
-    // });
+    });
+    new Vue({
+        el: '#author-form',
+        data: {
+            newAuthor: {
+                name: "",
+            },
+        },
+        methods: {
+            addAuthor(event) {
+                event.preventDefault();
+                console.log(event)
+                this.$http.post('/api/authors', this.newAuthor)
+                    .then(() => bus.$emit('authorsChanged',));
+            },
+        },
+    });
 </script>
 </body>
 </html>
