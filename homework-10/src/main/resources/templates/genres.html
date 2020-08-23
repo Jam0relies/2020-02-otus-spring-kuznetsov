@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Genres</title>
+    <link rel="stylesheet" type="text/css" href="/style.css" media="screen"/>
+</head>
+<body>
+<div th:insert="header :: header"></div>
+<form action="#" th:action="@{/genres}" th:object="${genreToAdd}" method="post">
+    <input type="text" th:field="*{name}"/>
+    <button type="submit">add</button>
+</form>
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="genre : ${genres}">
+        <td th:text="${genre.id}"></td>
+        <td th:text="${genre.name}"></td>
+        <td>
+            <form action="#" th:action="@{/genres/{genreId}/delete (genreId=${genre.id})}" method="post">
+                <button type="submit">delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
