@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Authors</title>
     <link rel="stylesheet" type="text/css" href="/style.css" media="screen"/>
+    <script src="webjars/vue/2.6.11/vue.min.js"></script>
+    <script src="webjars/axios/0.19.2/dist/axios.min.js"></script>
 </head>
 <body>
 <div th:insert="header :: header"></div>
@@ -11,7 +13,7 @@
     <input type="text" th:field="*{name}"/>
     <button type="submit">add</button>
 </form>
-<table>
+<table class="authors" id="authors-table">
     <thead>
     <tr>
         <th>Id</th>
@@ -19,16 +21,52 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="author : ${authors}">
-        <td th:text="${author.id}"></td>
-        <td th:text="${author.name}"></td>
+    <tr v-for="author in authors">
+        <td>{{ author.id }}</td>
+        <td>{{ author.name }}</td>
         <td>
-            <form action="#" th:action="@{/authors/{authorId}/delete (authorId=${author.id})}" method="post">
-                <button type="submit">delete</button>
-            </form>
+            <button @click="removeAuthor(author)">Удалить</button>
         </td>
     </tr>
+    <!--    <tr th:each="author : ${authors}">-->
+    <!--        <td th:text="${author.id}"></td>-->
+    <!--        <td th:text="${author.name}"></td>-->
+    <!--        <td>-->
+    <!--            <form action="#" th:action="@{/authors/{authorId}/delete (authorId=${author.id})}" method="post">-->
+    <!--                <button type="submit">delete</button>-->
+    <!--            </form>-->
+    <!--        </td>-->
+    <!--    </tr>-->
     </tbody>
 </table>
+<script>
+    // fetch, ES6, Vue
+    // fetch('/api/authors')
+    //     .then(response => response.json())
+    //     .then(authors => {
+    Vue.prototype.$http = axios;
+    new Vue({
+        el: '#authors-table',
+        data: {
+            authors: []
+        },
+        methods: {
+            removeAuthor(author) {
+                this.$http.delete('/api/authors/' + author.id).then(() =>
+                    this.updateAuthors());
+            },
+            updateAuthors() {
+                this.$http.get('/api/authors').then(response => response.data)
+                    .then(authors => {
+                        this.authors = authors;
+                    })
+            }
+        },
+        mounted: function () {
+            this.updateAuthors();
+        }
+    })
+    // });
+</script>
 </body>
 </html>
