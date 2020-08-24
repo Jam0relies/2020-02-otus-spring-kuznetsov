@@ -1,17 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Genres</title>
     <link rel="stylesheet" type="text/css" href="/style.css" media="screen"/>
+    <script src="webjars/vue/2.6.11/vue.min.js"></script>
+    <script src="webjars/axios/0.19.2/dist/axios.min.js"></script>
 </head>
 <body>
-<div th:insert="header :: header"></div>
-<form action="#" th:action="@{/genres}" th:object="${genreToAdd}" method="post">
-    <input type="text" th:field="*{name}"/>
-    <button type="submit">add</button>
+<header>
+    <nav>
+        <div><a href="/books">Books</a></div>
+        <div><a href="/authors">Authors</a></div>
+        <div><a href="/genres">Genres</a></div>
+    </nav>
+</header>
+<form id="genre-form" v-on:submit.prevent="addGenre">
+    <div>
+        <label for="newGenreName">Genre name</label>
+        <input id="newGenreName" type="text" v-model="newGenre.name" @submit.prevent/>
+    </div>
+    <button>Add</button>
 </form>
-<table>
+<table class="genres" id="genres-table">
     <thead>
     <tr>
         <th>Id</th>
@@ -19,16 +30,60 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="genre : ${genres}">
-        <td th:text="${genre.id}"></td>
-        <td th:text="${genre.name}"></td>
+    <tr v-for="genre in genres">
+        <td>{{ genre.id }}</td>
+        <td>{{ genre.name }}</td>
         <td>
-            <form action="#" th:action="@{/genres/{genreId}/delete (genreId=${genre.id})}" method="post">
-                <button type="submit">delete</button>
-            </form>
+            <button @click="removeGenre(genre)">Delete</button>
         </td>
     </tr>
     </tbody>
 </table>
+<script>
+    Vue.prototype.$http = axios;
+    let bus = new Vue()
+    new Vue({
+        el: '#genres-table',
+        data: {
+            genres: [],
+        },
+        methods: {
+            removeGenre(genre) {
+                this.$http.delete('/api/genres/' + genre.id).then(() =>
+                    this.updateGenres());
+            },
+            updateGenres() {
+                this.$http.get('/api/genres').then(response => response.data)
+                    .then(genres => {
+                        this.genres = genres;
+                    })
+            },
+        },
+        mounted: function () {
+            this.updateGenres();
+        },
+        created: function () {
+            bus.$on('genresChanged', () => {
+                this.updateGenres();
+            })
+        }
+    });
+    new Vue({
+        el: '#genre-form',
+        data: {
+            newGenre: {
+                name: "",
+            },
+        },
+        methods: {
+            addGenre(event) {
+                event.preventDefault();
+                console.log(event)
+                this.$http.post('/api/genres', this.newGenre)
+                    .then(() => bus.$emit('genresChanged',));
+            },
+        },
+    });
+</script>
 </body>
 </html>

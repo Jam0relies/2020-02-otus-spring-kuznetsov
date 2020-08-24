@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Authors</title>
@@ -8,12 +8,18 @@
     <script src="webjars/axios/0.19.2/dist/axios.min.js"></script>
 </head>
 <body>
-<div th:insert="header :: header"></div>
+<header>
+    <nav>
+        <div><a href="/books">Books</a></div>
+        <div><a href="/authors">Authors</a></div>
+        <div><a href="/genres">Genres</a></div>
+    </nav>
+</header>
 <form id="author-form" v-on:submit.prevent="addAuthor">
-    <label>
-        Author name
-        <input type="text" v-model="newAuthor.name" @submit.prevent/>
-    </label>
+    <div>
+        <label for="newAuthorName">Author name</label>
+        <input id="newAuthorName" type="text" v-model="newAuthor.name" @submit.prevent/>
+    </div>
     <button>Add</button>
 </form>
 <table class="authors" id="authors-table">
@@ -36,7 +42,7 @@
 <script>
     Vue.prototype.$http = axios;
     let bus = new Vue()
-    const authors = new Vue({
+    new Vue({
         el: '#authors-table',
         data: {
             authors: [],

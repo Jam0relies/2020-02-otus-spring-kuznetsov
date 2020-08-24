@@ -21,10 +21,10 @@ public class GenreService {
         return repository.findByName(name).toString();
     }
 
-    public String addGenre(String name) {
+    public Genre addGenre(String name) {
         final Genre genre = new Genre(name);
         final Genre savedGenre = repository.save(genre);
-        return savedGenre.toString();
+        return savedGenre;
     }
 
     public List<Genre> getAll() {

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Books</title>
     <link rel="stylesheet" type="text/css" href="/style.css" media="screen"/>
+    <script src="webjars/vue/2.5.16/vue.min.js"></script>
 </head>
 <body>
 <div th:insert="header :: header"></div>
@@ -12,7 +13,7 @@
     <button type="submit">add</button>
 </form>
 </form>
-<table>
+<table class="books" id="bookss-table">
     <thead>
     <tr>
         <th>Id</th>
@@ -22,26 +23,44 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="book : ${books}">
-        <td><a th:href="@{/books/{id}(id=${book.id})}" th:text="${book.id}">123456</a></td>
-        <td th:text="${book.name}">Book name</td>
-        <td>
-            <ul>
-                <li th:each="author : ${book.authors}" th:text="${author.name}">some author</li>
-            </ul>
-        </td>
-        <td>
-            <ul>
-                <li th:each="genre : ${book.genres}" th:text="${genre.name}">some genre</li>
-            </ul>
-        </td>
-        <td>
-            <form action="#" th:action="@{/books/{id}/delete(id=${book.id})}" method="post">
-                <button type="submit">delete</button>
-            </form>
-        </td>
+    <tr v-for="book in books">
+        <td>{{ book.id }}</td>
+        <td>{{ book.name }}</td>
+        <td>{{ book.authors }}</td>
     </tr>
+    <!--    <tr th:each="book : ${books}">-->
+    <!--        <td><a th:href="@{/books/{id}(id=${book.id})}" th:text="${book.id}">123456</a></td>-->
+    <!--        <td th:text="${book.name}">Book name</td>-->
+    <!--        <td>-->
+    <!--            <ul>-->
+    <!--                <li th:each="author : ${book.authors}" th:text="${author.name}">some author</li>-->
+    <!--            </ul>-->
+    <!--        </td>-->
+    <!--        <td>-->
+    <!--            <ul>-->
+    <!--                <li th:each="genre : ${book.genres}" th:text="${genre.name}">some genre</li>-->
+    <!--            </ul>-->
+    <!--        </td>-->
+    <!--        <td>-->
+    <!--            <form action="#" th:action="@{/books/{id}/delete(id=${book.id})}" method="post">-->
+    <!--                <button type="submit">delete</button>-->
+    <!--            </form>-->
+    <!--        </td>-->
+    <!--    </tr>-->
     </tbody>
+    <script>
+        // fetch, ES6, Vue
+        fetch('/api/books')
+            .then(response => response.json())
+            .then(books => {
+                new Vue({
+                    el: '#books-table',
+                    data: {
+                        books: books
+                    }
+                })
+            });
+    </script>
 </table>
 </body>
 </html>

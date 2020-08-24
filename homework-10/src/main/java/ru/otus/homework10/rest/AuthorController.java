@@ -1,6 +1,5 @@
 package ru.otus.homework10.rest;
 
-import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +12,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @RestController
 public class AuthorController {
     private final AuthorService authorService;
@@ -37,7 +35,6 @@ public class AuthorController {
 
     @PostMapping("/api/authors")
     public AuthorDto addAuthor(@RequestBody @Valid AddAuthorRequestDto authorToAdd) {
-        log.info("{}", authorToAdd);
         Author author = authorService.addAuthor(authorToAdd.getName());
         return modelMapper.map(author, AuthorDto.class);
     }
