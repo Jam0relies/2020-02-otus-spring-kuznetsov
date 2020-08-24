@@ -1,19 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Books</title>
     <link rel="stylesheet" type="text/css" href="/style.css" media="screen"/>
-    <script src="webjars/vue/2.5.16/vue.min.js"></script>
+    <script src="webjars/vue/2.6.11/vue.min.js"></script>
+    <script src="webjars/axios/0.19.2/dist/axios.min.js"></script>
 </head>
 <body>
-<div th:insert="header :: header"></div>
-<form action="#" th:action="@{/books}" th:object="${bookToAdd}" method="post">
-    <input type="text" th:field="*{name}"/>
-    <button type="submit">add</button>
+<header>
+    <nav>
+        <div><a href="/books">Books</a></div>
+        <div><a href="/authors">Authors</a></div>
+        <div><a href="/genres">Genres</a></div>
+    </nav>
+</header>
+<form id="book-form" v-on:submit.prevent="addBook">
+    <div>
+        <label for="newBookName">Book name</label>
+        <input id="newBookName" type="text" v-model="newBook.name" @submit.prevent/>
+    </div>
+    <button>Add</button>
 </form>
 </form>
-<table class="books" id="bookss-table">
+<table class="books" id="books-table">
     <thead>
     <tr>
         <th>Id</th>
@@ -26,41 +36,64 @@
     <tr v-for="book in books">
         <td>{{ book.id }}</td>
         <td>{{ book.name }}</td>
-        <td>{{ book.authors }}</td>
+        <td>
+            <div v-for="author in book.authors">{{ author.name }}</div>
+        </td>
+        <td>
+            <div v-for="genre in book.genres">{{ genre.name }}</div>
+        </td>
+        <td>
+            <button @click="removeBook(book)">Delete</button>
+        </td>
     </tr>
-    <!--    <tr th:each="book : ${books}">-->
-    <!--        <td><a th:href="@{/books/{id}(id=${book.id})}" th:text="${book.id}">123456</a></td>-->
-    <!--        <td th:text="${book.name}">Book name</td>-->
-    <!--        <td>-->
-    <!--            <ul>-->
-    <!--                <li th:each="author : ${book.authors}" th:text="${author.name}">some author</li>-->
-    <!--            </ul>-->
-    <!--        </td>-->
-    <!--        <td>-->
-    <!--            <ul>-->
-    <!--                <li th:each="genre : ${book.genres}" th:text="${genre.name}">some genre</li>-->
-    <!--            </ul>-->
-    <!--        </td>-->
-    <!--        <td>-->
-    <!--            <form action="#" th:action="@{/books/{id}/delete(id=${book.id})}" method="post">-->
-    <!--                <button type="submit">delete</button>-->
-    <!--            </form>-->
-    <!--        </td>-->
-    <!--    </tr>-->
     </tbody>
-    <script>
-        // fetch, ES6, Vue
-        fetch('/api/books')
-            .then(response => response.json())
-            .then(books => {
-                new Vue({
-                    el: '#books-table',
-                    data: {
-                        books: books
-                    }
-                })
-            });
-    </script>
+
 </table>
+<script>
+    Vue.prototype.$http = axios;
+    let bus = new Vue()
+    new Vue({
+        el: '#books-table',
+        data: {
+            books: [],
+        },
+        methods: {
+            removeBook(book) {
+                this.$http.delete('/api/books/' + book.id).then(() =>
+                    this.updateBooks());
+            },
+            updateBooks() {
+                this.$http.get('/api/books').then(response => response.data)
+                    .then(books => {
+                        this.books = books;
+                    })
+            },
+        },
+        mounted: function () {
+            this.updateBooks();
+        },
+        created: function () {
+            bus.$on('booksChanged', () => {
+                this.updateBooks();
+            })
+        }
+    });
+    new Vue({
+        el: '#book-form',
+        data: {
+            newBook: {
+                name: "",
+            },
+        },
+        methods: {
+            addBook(event) {
+                event.preventDefault();
+                console.log(event)
+                this.$http.post('/api/books', this.newBook)
+                    .then(() => bus.$emit('booksChanged',));
+            },
+        },
+    });
+</script>
 </body>
 </html>
