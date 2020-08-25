@@ -6,7 +6,13 @@
     <link rel="stylesheet" type="text/css" href="/style.css" media="screen"/>
 </head>
 <body>
-<div th:insert="header :: header"></div>
+<header>
+    <nav>
+        <div><a href="/books.html">Books</a></div>
+        <div><a href="/authors.html">Authors</a></div>
+        <div><a href="/genres.html">Genres</a></div>
+    </nav>
+</header>
 <h1 th:text="${book.name}">Book name</h1>
 <div>
     <h2>Authors</h2>

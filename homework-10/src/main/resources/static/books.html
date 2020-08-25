@@ -10,9 +10,9 @@
 <body>
 <header>
     <nav>
-        <div><a href="/books">Books</a></div>
-        <div><a href="/authors">Authors</a></div>
-        <div><a href="/genres">Genres</a></div>
+        <div><a href="/books.html">Books</a></div>
+        <div><a href="/authors.html">Authors</a></div>
+        <div><a href="/genres.html">Genres</a></div>
     </nav>
 </header>
 <form id="book-form" v-on:submit.prevent="addBook">
@@ -34,7 +34,7 @@
     </thead>
     <tbody>
     <tr v-for="book in books">
-        <td>{{ book.id }}</td>
+        <td><a v-bind:href="'/books/' + book.id">{{ book.id }}</a></td>
         <td>{{ book.name }}</td>
         <td>
             <div v-for="author in book.authors">{{ author.name }}</div>
