@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Books</title>
+    <link rel="stylesheet" type="text/css" href="/style.css" media="screen"/>
+</head>
+<body>
+<div th:insert="header :: header"></div>
+<form action="#" th:action="@{/books}" th:object="${bookToAdd}" method="post">
+    <input type="text" th:field="*{name}"/>
+    <button type="submit">add</button>
+</form>
+</form>
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Authors</th>
+        <th>Genres</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td><a th:href="@{/books/{id}(id=${book.id})}" th:text="${book.id}">123456</a></td>
+        <td th:text="${book.name}">Book name</td>
+        <td>
+            <ul>
+                <li th:each="author : ${book.authors}" th:text="${author.name}">some author</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li th:each="genre : ${book.genres}" th:text="${genre.name}">some genre</li>
+            </ul>
+        </td>
+        <td>
+            <form action="#" th:action="@{/books/{id}/delete(id=${book.id})}" method="post">
+                <button type="submit">delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

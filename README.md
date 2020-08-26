@@ -8,3 +8,4 @@
 6. homework-06 - Приложение использует ORM
 7. homework-07 - Приложение перенесено на Spring Data JPA
 8. homework-08 -Использовать MongoDB и spring-data для хранения информации о книгах
+9. CRUD приложение с Web UI и хранением данных в БД
