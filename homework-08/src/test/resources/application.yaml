@@ -1,0 +1,11 @@
+spring:
+  shell:
+    interactive:
+      enabled: false
+  data:
+    mongodb:
+      host: 127.0.0.1
+      port: 0
+      database: test
+mongock:
+  change-logs-scan-package: ru.otus.homework08.mongock.changelog
