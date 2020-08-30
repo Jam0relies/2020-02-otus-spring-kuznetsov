@@ -1,12 +1,6 @@
 <template>
   <div>
-    <!--  <form id="author-form" v-on:submit.prevent="addAuthor">-->
-    <!--    <div>-->
-    <!--      <label for="newAuthorName">Author name</label>-->
-    <!--      <input id="newAuthorName" type="text" v-model="newAuthor.name" @submit.prevent/>-->
-    <!--    </div>-->
-    <!--    <button>Add</button>-->
-    <!--  </form>-->
+    <add-author-form v-on:authorsChanged="updateAuthors"></add-author-form>
     <table class="authors-table">
       <thead>
       <tr>
@@ -28,9 +22,11 @@
 </template>
 <script>
 import axios from 'axios'
+import AddAuthorForm from "./AddAuthorForm";
 
 export default {
   name: 'authors',
+  components: {AddAuthorForm},
   data: function () {
     return {
       authors: []
@@ -53,25 +49,10 @@ export default {
   },
   created: function () {
 
-    // bus.$on('authorsChanged', () => {
-    //   this.updateAuthors();
-    // })
+    AddAuthorForm.$on('authorsChanged', () => {
+      this.updateAuthors();
+    })
   }
 };
-// new Vue({
-//   el: '#author-form',
-//   data: {
-//     newAuthor: {
-//       name: "",
-//     },
-//   },
-//   methods: {
-//     addAuthor(event) {
-//       event.preventDefault();
-//       console.log(event)
-//       this.$http.post('/api/authors', this.newAuthor)
-//         .then(() => bus.$emit('authorsChanged',));
-//     },
-//   },
-// });
+
 </script>
