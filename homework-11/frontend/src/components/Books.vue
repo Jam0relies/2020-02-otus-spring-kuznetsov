@@ -12,7 +12,15 @@
       </thead>
       <tbody>
       <tr v-for="book in books">
-        <td><a v-bind:href="'/books/' + book.id">{{ book.id }}</a></td>
+        <td>
+          <router-link
+            active-class="is-active"
+            class="link"
+            :to="{ name: 'book', params: { id: book.id} }">
+            {{ book.id }}
+          </router-link>
+        </td>
+        <!--        <td><a v-bind:href="'/books/' + book.id">{{ book.id }}</a></td>-->
         <td>{{ book.name }}</td>
         <td>
           <div v-for="author in book.authors">{{ author.name }}</div>

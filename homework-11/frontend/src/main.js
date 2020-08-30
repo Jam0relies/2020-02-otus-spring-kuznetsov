@@ -5,6 +5,7 @@ import App from './App.vue'
 import Authors from "./components/Authors";
 import Genres from "./components/Genres";
 import Books from "./components/Books";
+import BookInfo from "./components/BookInfo";
 
 Vue.use(Router)
 // Vue.use(Meta)
@@ -30,6 +31,12 @@ const router = new Router({
       path: '/books',
       name: 'books',
       component: Books
+    },
+    {
+      path: '/books/:id',
+      name: 'book',
+      component: BookInfo,
+      props: true
     },
   ],
   mode: 'history'

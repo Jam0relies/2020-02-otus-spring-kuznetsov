@@ -35,7 +35,13 @@ public class BookController {
 
     @PostMapping("/api/books")
     public BookDto addAuthor(@RequestBody @Valid AddBookRequestDto bookToAdd) {
-        Book genre = bookService.addBook(bookToAdd.getName());
-        return modelMapper.map(genre, BookDto.class);
+        Book book = bookService.addBook(bookToAdd.getName());
+        return modelMapper.map(book, BookDto.class);
+    }
+
+    @GetMapping("/api/books/{bookId}")
+    BookDto geBook(@PathVariable long bookId) {
+        Book book = bookService.getById(bookId);
+        return modelMapper.map(book, BookDto.class);
     }
 }
