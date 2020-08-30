@@ -47,12 +47,5 @@ export default {
   mounted: function () {
     this.updateAuthors();
   },
-  created: function () {
-
-    AddAuthorForm.$on('authorsChanged', () => {
-      this.updateAuthors();
-    })
-  }
 };
-
 </script>

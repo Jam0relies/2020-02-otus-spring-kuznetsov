@@ -3,6 +3,7 @@ import Router from 'vue-router'
 // import Meta from 'vue-meta'
 import App from './App.vue'
 import Authors from "./components/Authors";
+import Genres from "./components/Genres";
 
 Vue.use(Router)
 // Vue.use(Meta)
@@ -19,12 +20,11 @@ const router = new Router({
       name: 'authors',
       component: Authors
     },
-    // {
-    //   path: '/post/:id',
-    //   name:'post',
-    //   component: Post,
-    //   props: true,
-    // },
+    {
+      path: '/genres',
+      name: 'genres',
+      component: Genres
+    },
   ],
   mode: 'history'
 })
