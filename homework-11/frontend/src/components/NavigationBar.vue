@@ -1,7 +1,14 @@
 <template>
   <header id="header">
     <nav>
-      <div><a href="/books.html">Books</a></div>
+      <div>
+        <router-link
+          active-class="is-active"
+          class="link"
+          :to="{ name: 'books', params: { } }">
+          Books
+        </router-link>
+      </div>
       <div>
         <router-link
           active-class="is-active"

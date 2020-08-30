@@ -1,7 +1,7 @@
 <template>
   <div>
     <add-genre-form v-on:genresChanged="updateGenres"></add-genre-form>
-    <table class="genres" id="genres-table">
+    <table class="genres-table">
       <thead>
       <tr>
         <th>Id</th>

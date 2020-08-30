@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import App from './App.vue'
 import Authors from "./components/Authors";
 import Genres from "./components/Genres";
+import Books from "./components/Books";
 
 Vue.use(Router)
 // Vue.use(Meta)
@@ -24,6 +25,11 @@ const router = new Router({
       path: '/genres',
       name: 'genres',
       component: Genres
+    },
+    {
+      path: '/books',
+      name: 'books',
+      component: Books
     },
   ],
   mode: 'history'
