@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import Meta from 'vue-meta'
 import App from './App.vue'
-import Home from "./components/Home";
+import Authors from "./components/Authors";
 
 Vue.use(Router)
 // Vue.use(Meta)
@@ -12,13 +12,13 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      // component: Home,
     },
-    // {
-    //   path: '/authors',
-    //   name: 'authors',
-    //   component: Authors
-    // }
+    {
+      path: '/authors',
+      name: 'authors',
+      component: Authors
+    },
     // {
     //   path: '/post/:id',
     //   name:'post',

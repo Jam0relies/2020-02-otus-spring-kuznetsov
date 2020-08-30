@@ -2,7 +2,12 @@
   <header id="header">
     <nav>
       <div><a href="/books.html">Books</a></div>
-      <div><a href="/authors.html">Authors</a></div>
+      <router-link
+        active-class="is-active"
+        class="link"
+        :to="{ name: 'authors', params: { } }">
+        Authors
+      </router-link>
       <div><a href="/genres.html">Genres</a></div>
     </nav>
   </header>
