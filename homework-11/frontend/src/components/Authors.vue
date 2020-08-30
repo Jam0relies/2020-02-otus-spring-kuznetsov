@@ -7,7 +7,7 @@
     <!--    </div>-->
     <!--    <button>Add</button>-->
     <!--  </form>-->
-    <table class="authors" id="authors-table" v-model="authors">
+    <table class="authors-table">
       <thead>
       <tr>
         <th>Id</th>
@@ -27,24 +27,22 @@
   </div>
 </template>
 <script>
-import Vue from 'vue'
-// Vue.prototype.$http = axios;
-// let bus = new Vue()
-export default new Vue({
-  // el: '#authors-table',
+import axios from 'axios'
+
+export default {
   name: 'authors',
   data: function () {
     return {
-      authors: 0
+      authors: []
     }
   },
   methods: {
     removeAuthor(author) {
-      this.axios.delete('/api/authors/' + author.id).then(() =>
+      axios.delete('/api/authors/' + author.id).then(() =>
         this.updateAuthors());
     },
     updateAuthors() {
-      this.axios.get('/api/authors').then(response => response.data)
+      axios.get('/api/authors').then(response => response.data)
         .then(authors => {
           this.authors = authors;
         })
@@ -59,7 +57,7 @@ export default new Vue({
     //   this.updateAuthors();
     // })
   }
-});
+};
 // new Vue({
 //   el: '#author-form',
 //   data: {
