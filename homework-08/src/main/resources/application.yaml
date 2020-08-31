@@ -1,0 +1,8 @@
+spring:
+  data:
+    mongodb:
+      database: homework08
+      host: 172.17.0.2
+      port: 27017
+mongock:
+  change-logs-scan-package: ru.otus.homework08.mongock.changelog
