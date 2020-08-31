@@ -5,11 +5,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.homework10.domain.Author;
 import ru.otus.homework10.domain.Book;
+import ru.otus.homework10.domain.Genre;
 import ru.otus.homework10.rest.dto.AddBookRequestDto;
 import ru.otus.homework10.rest.dto.AuthorDto;
 import ru.otus.homework10.rest.dto.BookDto;
+import ru.otus.homework10.rest.dto.GenreDto;
 import ru.otus.homework10.service.AuthorService;
 import ru.otus.homework10.service.BookService;
+import ru.otus.homework10.service.GenreService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -20,11 +23,13 @@ public class BookController {
     private final BookService bookService;
     private final ModelMapper modelMapper;
     private final AuthorService authorService;
+    private final GenreService genreService;
 
-    public BookController(BookService bookService, ModelMapper modelMapper, AuthorService authorService) {
+    public BookController(BookService bookService, ModelMapper modelMapper, AuthorService authorService, GenreService genreService) {
         this.bookService = bookService;
         this.modelMapper = modelMapper;
         this.authorService = authorService;
+        this.genreService = genreService;
     }
 
     @GetMapping("/api/books")
@@ -74,5 +79,31 @@ public class BookController {
     @ResponseStatus(HttpStatus.OK)
     public void addAuthorToBook(@PathVariable long bookId, @PathVariable long authorId) {
         bookService.addAuthor(bookId, authorId);
+    }
+
+    @DeleteMapping("/api/books/{bookId}/genres/{genreId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void removeGenre(@PathVariable long bookId, @PathVariable long genreId) {
+        bookService.removeGenre(bookId, genreId);
+    }
+
+    @GetMapping("/api/books/{bookId}/genres")
+    public List<GenreDto> getGenres(@PathVariable long bookId) {
+        Book book = bookService.getById(bookId);
+        return book.getGenres().stream().map(g -> modelMapper.map(g, GenreDto.class)).collect(Collectors.toList());
+    }
+
+    @GetMapping("/api/books/{bookId}/genres-to-add")
+    public List<GenreDto> getPossibleGenres(@PathVariable long bookId) {
+        Book book = bookService.getById(bookId);
+        List<Genre> genres = genreService.getAll();
+        genres.removeAll(book.getGenres());
+        return genres.stream().map(g -> modelMapper.map(g, GenreDto.class)).collect(Collectors.toList());
+    }
+
+    @PostMapping("/api/books/{bookId}/genres/{genreId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void addGenreToBook(@PathVariable long bookId, @PathVariable long genreId) {
+        bookService.addGenre(bookId, genreId);
     }
 }

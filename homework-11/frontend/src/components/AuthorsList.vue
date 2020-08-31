@@ -6,19 +6,12 @@
         <button @click="removeAuthor(author.id)">Delete</button>
       </li>
     </ul>
-    <form class="book-form" v-on:submit.prevent="addAuthor">
+    <form class="book-author-form" v-on:submit.prevent="addAuthor">
       <select v-model="selectedAuthorId">
         <option v-for="author in authorsToAdd" v-bind:value="author.id"> {{ author.id }} {{ author.name }}</option>
       </select>
       <button>add</button>
     </form>
-    <!--    <form action="#" th:action="@{/books/{bookId}/authors (bookId=${book.id})}" th:object="${authorToAdd}"-->
-    <!--          method="post">-->
-    <!--      <select th:field="*{id}">-->
-    <!--        <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.name}"></option>-->
-    <!--      </select>-->
-    <!--      <button type="submit">add</button>-->
-    <!--    </form>-->
   </div>
 </template>
 <script>
@@ -55,7 +48,6 @@ export default {
     ,
     addAuthor(event) {
       event.preventDefault();
-      console.log(event)
       axios.post('/api/books/' + this.bookId + '/authors/' + this.selectedAuthorId,)
         .then(() => {
           this.updateAuthors();

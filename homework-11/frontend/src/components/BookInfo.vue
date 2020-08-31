@@ -21,7 +21,8 @@
       <!--          <button type="submit">add</button>-->
       <!--        </form>-->
       <!--      </ul>-->
-      <!--      <h2>Genres</h2>-->
+      <h2>Genres</h2>
+      <genres-list v-bind:book-id="id" v-bind:genres="book.genres"></genres-list>
       <!--      <ul>-->
       <!--        <li th:each="genre : ${book.genres}">-->
       <!--          <span th:text="${genre.name}"></span>-->
@@ -57,6 +58,7 @@
 <script>
 import axios from "axios";
 import AuthorsList from "./AuthorsList";
+import GenresList from "./GenresList";
 
 export default {
   props: ['id'],
@@ -65,7 +67,7 @@ export default {
       book: null
     }
   },
-  components: {AuthorsList},
+  components: {AuthorsList, GenresList},
   methods: {
     updateBook() {
       axios.get('/api/books/' + this.id).then(response => response.data)
