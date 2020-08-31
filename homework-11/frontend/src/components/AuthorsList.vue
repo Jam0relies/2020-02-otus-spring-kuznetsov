@@ -2,25 +2,69 @@
   <div>
     <ul>
       <li v-for="author in authors">
-        <span>{{ author.name }}</span>
-        <form action="#"
-              th:action="@{/books/{bookId}/authors/{authorId}/remove(bookId=${book.id}, authorId=${author.id})}"
-              method="post">
-          <button type="submit">delete</button>
-        </form>
+        <span>{{ author.id }} {{ author.name }}</span>
+        <button @click="removeAuthor(author.id)">Delete</button>
       </li>
     </ul>
-    <form action="#" th:action="@{/books/{bookId}/authors (bookId=${book.id})}" th:object="${authorToAdd}"
-          method="post">
-      <select th:field="*{id}">
-        <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.name}"></option>
+    <form class="book-form" v-on:submit.prevent="addAuthor">
+      <select v-model="selectedAuthorId">
+        <option v-for="author in authorsToAdd" v-bind:value="author.id"> {{ author.id }} {{ author.name }}</option>
       </select>
-      <button type="submit">add</button>
+      <button>add</button>
     </form>
+    <!--    <form action="#" th:action="@{/books/{bookId}/authors (bookId=${book.id})}" th:object="${authorToAdd}"-->
+    <!--          method="post">-->
+    <!--      <select th:field="*{id}">-->
+    <!--        <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.name}"></option>-->
+    <!--      </select>-->
+    <!--      <button type="submit">add</button>-->
+    <!--    </form>-->
   </div>
 </template>
 <script>
+import axios from "axios";
+
 export default {
   props: ['bookId', 'authors'],
+  data() {
+    return {
+      authorsToAdd: [],
+      selectedAuthorId: "",
+    };
+  },
+  methods: {
+    removeAuthor(authorId) {
+      axios.delete('/api/books/' + this.bookId + "/authors/" + authorId).then(() => {
+        this.updateAuthors();
+        this.updateAuthorsToAdd();
+      });
+    },
+    updateAuthors() {
+      axios.get('/api/books/' + this.bookId + '/authors').then(response => response.data)
+        .then(authors => {
+          this.authors = authors;
+        })
+    }
+    ,
+    updateAuthorsToAdd() {
+      axios.get('/api/books/' + this.bookId + '/authors-to-add').then(response => response.data)
+        .then(authors => {
+          this.authorsToAdd = authors;
+        })
+    }
+    ,
+    addAuthor(event) {
+      event.preventDefault();
+      console.log(event)
+      axios.post('/api/books/' + this.bookId + '/authors/' + this.selectedAuthorId,)
+        .then(() => {
+          this.updateAuthors();
+          this.updateAuthorsToAdd();
+        });
+    }
+  },
+  mounted() {
+    this.updateAuthorsToAdd();
+  }
 }
 </script>

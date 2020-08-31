@@ -3,9 +3,12 @@ package ru.otus.homework10.rest;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.otus.homework10.domain.Author;
 import ru.otus.homework10.domain.Book;
 import ru.otus.homework10.rest.dto.AddBookRequestDto;
+import ru.otus.homework10.rest.dto.AuthorDto;
 import ru.otus.homework10.rest.dto.BookDto;
+import ru.otus.homework10.service.AuthorService;
 import ru.otus.homework10.service.BookService;
 
 import javax.validation.Valid;
@@ -16,10 +19,12 @@ import java.util.stream.Collectors;
 public class BookController {
     private final BookService bookService;
     private final ModelMapper modelMapper;
+    private final AuthorService authorService;
 
-    public BookController(BookService bookService, ModelMapper modelMapper) {
+    public BookController(BookService bookService, ModelMapper modelMapper, AuthorService authorService) {
         this.bookService = bookService;
         this.modelMapper = modelMapper;
+        this.authorService = authorService;
     }
 
     @GetMapping("/api/books")
@@ -34,14 +39,40 @@ public class BookController {
     }
 
     @PostMapping("/api/books")
-    public BookDto addAuthor(@RequestBody @Valid AddBookRequestDto bookToAdd) {
+    public BookDto addBook(@RequestBody @Valid AddBookRequestDto bookToAdd) {
         Book book = bookService.addBook(bookToAdd.getName());
         return modelMapper.map(book, BookDto.class);
     }
 
     @GetMapping("/api/books/{bookId}")
-    BookDto geBook(@PathVariable long bookId) {
+    public BookDto geBook(@PathVariable long bookId) {
         Book book = bookService.getById(bookId);
         return modelMapper.map(book, BookDto.class);
+    }
+
+    @DeleteMapping("/api/books/{bookId}/authors/{authorId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void removeAuthor(@PathVariable long bookId, @PathVariable long authorId) {
+        bookService.removeAuthor(bookId, authorId);
+    }
+
+    @GetMapping("/api/books/{bookId}/authors")
+    public List<AuthorDto> getAuthors(@PathVariable long bookId) {
+        Book book = bookService.getById(bookId);
+        return book.getAuthors().stream().map(a -> modelMapper.map(a, AuthorDto.class)).collect(Collectors.toList());
+    }
+
+    @GetMapping("/api/books/{bookId}/authors-to-add")
+    public List<AuthorDto> getPossibleAuthors(@PathVariable long bookId) {
+        Book book = bookService.getById(bookId);
+        List<Author> authors = authorService.getAll();
+        authors.removeAll(book.getAuthors());
+        return authors.stream().map(a -> modelMapper.map(a, AuthorDto.class)).collect(Collectors.toList());
+    }
+
+    @PostMapping("/api/books/{bookId}/authors/{authorId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void addAuthorToBook(@PathVariable long bookId, @PathVariable long authorId) {
+        bookService.addAuthor(bookId, authorId);
     }
 }

@@ -3,6 +3,7 @@
     <h1>{{ book.name }}</h1>
     <div>
       <h2>Authors</h2>
+      <authors-list v-bind:book-id="id" v-bind:authors="book.authors"></authors-list>
       <!--      <ul>-->
       <!--        <li th:each="author : ${book.authors}">-->
       <!--          <span th:text="${author.name}"></span>-->
@@ -55,6 +56,7 @@
 </template>
 <script>
 import axios from "axios";
+import AuthorsList from "./AuthorsList";
 
 export default {
   props: ['id'],
@@ -63,11 +65,8 @@ export default {
       book: null
     }
   },
+  components: {AuthorsList},
   methods: {
-    removeBook(book) {
-      axios.delete('/api/books/' + book.id).then(() =>
-        this.updateBooks());
-    },
     updateBook() {
       axios.get('/api/books/' + this.id).then(response => response.data)
         .then(book => {
