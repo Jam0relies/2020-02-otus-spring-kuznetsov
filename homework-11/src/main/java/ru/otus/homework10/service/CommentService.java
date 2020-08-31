@@ -9,6 +9,7 @@ import ru.otus.homework10.repository.BookRepository;
 import ru.otus.homework10.repository.CommentRepository;
 
 import java.time.Instant;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,9 +22,9 @@ public class CommentService {
     }
 
     @Transactional(readOnly = true)
-    public String getByBookId(long bookId) {
+    public List<Comment> getByBookId(long bookId) {
         Book book = bookRepository.getOne(bookId);
-        return book.getComments().toString();
+        return book.getComments();
     }
 
     @Transactional

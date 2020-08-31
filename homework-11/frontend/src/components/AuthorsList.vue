@@ -37,8 +37,7 @@ export default {
         .then(authors => {
           this.authors = authors;
         })
-    }
-    ,
+    },
     updateAuthorsToAdd() {
       axios.get('/api/books/' + this.bookId + '/authors-to-add').then(response => response.data)
         .then(authors => {

@@ -4,54 +4,10 @@
     <div>
       <h2>Authors</h2>
       <authors-list v-bind:book-id="id" v-bind:authors="book.authors"></authors-list>
-      <!--      <ul>-->
-      <!--        <li th:each="author : ${book.authors}">-->
-      <!--          <span th:text="${author.name}"></span>-->
-      <!--          <form action="#"-->
-      <!--                th:action="@{/books/{bookId}/authors/{authorId}/remove(bookId=${book.id}, authorId=${author.id})}"-->
-      <!--                method="post">-->
-      <!--            <button type="submit">delete</button>-->
-      <!--          </form>-->
-      <!--        </li>-->
-      <!--        <form action="#" th:action="@{/books/{bookId}/authors (bookId=${book.id})}" th:object="${authorToAdd}"-->
-      <!--              method="post">-->
-      <!--          <select th:field="*{id}">-->
-      <!--            <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.name}"></option>-->
-      <!--          </select>-->
-      <!--          <button type="submit">add</button>-->
-      <!--        </form>-->
-      <!--      </ul>-->
       <h2>Genres</h2>
       <genres-list v-bind:book-id="id" v-bind:genres="book.genres"></genres-list>
-      <!--      <ul>-->
-      <!--        <li th:each="genre : ${book.genres}">-->
-      <!--          <span th:text="${genre.name}"></span>-->
-      <!--          <form action="#"-->
-      <!--                th:action="@{/books/{bookId}/genres/{genreId}/remove(bookId=${book.id}, genreId=${genre.id})}"-->
-      <!--                method="post">-->
-      <!--            <button type="submit">delete</button>-->
-      <!--          </form>-->
-      <!--        </li>-->
-      <!--        <form action="#" th:action="@{/books/{bookId}/genres (bookId=${book.id})}" th:object="${genreToAdd}"-->
-      <!--              method="post">-->
-      <!--          <select th:field="*{id}">-->
-      <!--            <option th:each="genre : ${genres}" th:value="${genre.id}" th:text="${genre.name}"></option>-->
-      <!--          </select>-->
-      <!--          <button type="submit">add</button>-->
-      <!--        </form>-->
-      <!--      </ul>-->
-      <!--      <h2>Comments</h2>-->
-      <!--      <form action="#" th:action="@{/books/{bookId}/comments (bookId=${book.id})}" th:object="${commentToAdd}"-->
-      <!--            method="post">-->
-      <!--        <textarea th:field="*{text}"></textarea>-->
-      <!--        <button type="submit">add</button>-->
-      <!--      </form>-->
-      <!--      <div>-->
-      <!--        <div th:each="comment : ${book.comments}">-->
-      <!--          <div th:text="${comment.timestamp}"></div>-->
-      <!--          <div th:text="${comment.text}"></div>-->
-      <!--        </div>-->
-      <!--      </div>-->
+      <h2>Comments</h2>
+      <comment-section v-bind:book-id="id"></comment-section>
     </div>
   </div>
 </template>
@@ -59,6 +15,7 @@
 import axios from "axios";
 import AuthorsList from "./AuthorsList";
 import GenresList from "./GenresList";
+import CommentSection from "./CommentSection";
 
 export default {
   props: ['id'],
@@ -67,7 +24,7 @@ export default {
       book: null
     }
   },
-  components: {AuthorsList, GenresList},
+  components: {AuthorsList, GenresList, CommentSection},
   methods: {
     updateBook() {
       axios.get('/api/books/' + this.id).then(response => response.data)

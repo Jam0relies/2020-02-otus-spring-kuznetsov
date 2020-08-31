@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GenreDto {
-    private long id;
-    private String name;
+public class PostCommentDto {
+    private String text;
 }
