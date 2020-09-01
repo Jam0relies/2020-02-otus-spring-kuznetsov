@@ -1,10 +1,9 @@
 package ru.otus.homework11.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+import reactor.core.publisher.Flux;
 import ru.otus.homework11.domain.Author;
 
-import java.util.List;
-
-public interface AuthorRepository extends JpaRepository<Author, Long> {
-      List<Author> findByName(String name);
+public interface AuthorRepository extends ReactiveMongoRepository<Author, String> {
+    Flux<Author> findByName(String name);
 }

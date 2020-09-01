@@ -1,51 +1,40 @@
 package ru.otus.homework11.domain;
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Data
 @EqualsAndHashCode(of = {"id"})
 @ToString(exclude = "comments")
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "books")
+@Document(collection = "books")
 public class Book {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private String id;
 
-    @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(targetEntity = Author.class, fetch = FetchType.EAGER /*, cascade = CascadeType.ALL*/)
-    @JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id"))
     @NonNull
+    @DBRef
     private Set<Author> authors = new HashSet<>();
 
-    @ManyToMany(targetEntity = Genre.class, fetch = FetchType.EAGER /*, cascade = CascadeType.ALL*/)
-    @JoinTable(name = "book_genre", joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id"))
     @NonNull
+    @DBRef
     private Set<Genre> genres = new HashSet<>();
 
     @NonNull
-    @OneToMany(targetEntity = Comment.class, mappedBy = "book", fetch = FetchType.LAZY, cascade = {CascadeType.REMOVE})
-    @OrderBy(value = "timestamp")
-    private List<Comment> comments = new ArrayList<>();
+//    @DBRef(lazy = true)
+    private HashMap<UUID, Comment> comments = new HashMap<>();
 
     public Book(String name) {
-        this.name = name;
-    }
-
-    public Book(long id) {
-        this.id = id;
+        this.name = "name";
     }
 }

@@ -1,25 +1,20 @@
 package ru.otus.homework11.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
+import lombok.NonNull;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @EqualsAndHashCode(of = {"id"})
 @NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "authors")
+@Document(collection = "authors")
 public class Author {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(name = "name", nullable = false)
+    private String id;
+    @NonNull
     private String name;
 
     public Author(String name) {
