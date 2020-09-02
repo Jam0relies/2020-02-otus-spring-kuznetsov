@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookDto {
-    private long id;
+    private String id;
     private String name;
     private List<AuthorDto> authors;
     private List<GenreDto> genres;

@@ -40,22 +40,9 @@ public class AuthorEndpoints {
                         request -> request.bodyToMono(AddAuthorRequestDto.class)
                                 .map(dto -> {
                                     Author author = new Author(dto.getName());
-                                    return authorRepository.save(author);
+                                    return authorRepository.save(author).map(authorToDtoMapper);
                                 })
-                                .flatMap(result -> ok().body(result, Author.class)))
-
-//                .GET("/func/person", queryParam("name", StringUtils::isNotEmpty),
-//                        request -> request.queryParam("name")
-//                                .map(repository::findAllByLastName)
-//                                .map(persons -> ok().body(persons, Person.class))
-//                                .orElse(notFound().build())
-//                )
-//                .GET("/func/person", accept(APPLICATION_JSON),
-//                        request -> ok().contentType(APPLICATION_JSON).body(repository.findAll(), Person.class))
-//                .GET("/func/person/{id}", accept(APPLICATION_JSON),
-//                        request -> repository.findById(request.pathVariable("id"))
-//                                .flatMap(person -> ok().contentType(APPLICATION_JSON).body(fromObject(person)))
-//                )
+                                .flatMap(result -> ok().body(result, AuthorDto.class)))
                 .build();
     }
 
