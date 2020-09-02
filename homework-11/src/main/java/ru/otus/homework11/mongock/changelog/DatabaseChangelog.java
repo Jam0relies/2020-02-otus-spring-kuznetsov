@@ -7,6 +7,7 @@ import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl
 import com.mongodb.DBRef;
 import com.mongodb.client.MongoCollection;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.BsonValue;
 import org.bson.Document;
 
 import java.time.Instant;
@@ -23,23 +24,23 @@ public class DatabaseChangelog {
         com.mongodb.client.MongoCollection<Document> genres = db.getCollection("genres");
 
         Document classicGenre = new Document("name", "Classic");
-        String classicGenreId = genres.insertOne(classicGenre).getInsertedId().toString();
+        BsonValue classicGenreId = genres.insertOne(classicGenre).getInsertedId();
 
         Document religionGenre = new Document("name", "Religion");
-        String religionGenreId = genres.insertOne(religionGenre).getInsertedId().toString();
+        BsonValue religionGenreId = genres.insertOne(religionGenre).getInsertedId();
 
         com.mongodb.client.MongoCollection<Document> authors = db.getCollection("authors");
         Document author1 = new Document("name", "William Shakespeare");
-        String author1Id = authors.insertOne(author1).getInsertedId().toString();
+        BsonValue author1Id = authors.insertOne(author1).getInsertedId();
 
         Document author2 = new Document("name", "Harold Abelson");
-        String author2Id = authors.insertOne(author2).getInsertedId().toString();
+        BsonValue author2Id = authors.insertOne(author2).getInsertedId();
 
         Document author3 = new Document("name", "Gerald Jay Sussman");
-        String author3Id = authors.insertOne(author3).getInsertedId().toString();
+        BsonValue author3Id = authors.insertOne(author3).getInsertedId();
 
         Document author4 = new Document("name", "Julie Sussman");
-        String author4Id = authors.insertOne(author4).getInsertedId().toString();
+        BsonValue author4Id = authors.insertOne(author4).getInsertedId();
 
         MongoCollection<Document> books = db.getCollection("books");
 

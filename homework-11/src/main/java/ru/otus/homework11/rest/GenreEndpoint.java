@@ -20,14 +20,8 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 
 @Configuration
 public class GenreEndpoint {
-    private final ModelMapper modelMapper;
-
-    public GenreEndpoint(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
-
     @Bean
-    public RouterFunction<ServerResponse> genreRoutes(GenreRepository genreRepository) {
+    public RouterFunction<ServerResponse> genreRoutes(GenreRepository genreRepository, ModelMapper modelMapper) {
         final Function<Genre, GenreDto> genreToDtoMapper = (Genre genre) -> modelMapper.map(genre, GenreDto.class);
         return route()
                 .GET("/api/genres",

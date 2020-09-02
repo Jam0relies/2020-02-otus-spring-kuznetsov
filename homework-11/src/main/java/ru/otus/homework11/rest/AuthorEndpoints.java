@@ -19,14 +19,8 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 
 @Configuration
 public class AuthorEndpoints {
-    private final ModelMapper modelMapper;
-
-    public AuthorEndpoints(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
-
     @Bean
-    public RouterFunction<ServerResponse> authorRoutes(AuthorRepository authorRepository) {
+    public RouterFunction<ServerResponse> authorRoutes(AuthorRepository authorRepository, ModelMapper modelMapper) {
         final Function<Author, AuthorDto> authorToDtoMapper = (Author author) -> modelMapper.map(author, AuthorDto.class);
         return route()
                 .GET("/api/authors",
