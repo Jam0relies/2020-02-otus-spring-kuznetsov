@@ -34,6 +34,6 @@ public class Book {
     private HashMap<UUID, Comment> comments = new HashMap<>();
 
     public Book(String name) {
-        this.name = "name";
+        this.name = name;
     }
 }

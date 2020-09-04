@@ -40,7 +40,7 @@ public class BookRepositoryImpl implements BookRepositoryCustom {
     @Override
     public Mono<?> addGenreToBook(String bookId, String genre) {
         return mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(bookId)),
-                new Update().push("genres", new DBRef("genres", new ObjectId(genre))),
+                new Update().addToSet("genres", new DBRef("genres", new ObjectId(genre))),
                 Book.class);
     }
 }
