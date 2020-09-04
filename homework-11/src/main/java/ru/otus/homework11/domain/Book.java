@@ -31,7 +31,6 @@ public class Book {
     private Set<Genre> genres = new HashSet<>();
 
     @NonNull
-//    @DBRef(lazy = true)
     private HashMap<UUID, Comment> comments = new HashMap<>();
 
     public Book(String name) {

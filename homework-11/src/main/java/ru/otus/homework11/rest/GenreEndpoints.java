@@ -19,7 +19,7 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 
 
 @Configuration
-public class GenreEndpoint {
+public class GenreEndpoints {
     @Bean
     public RouterFunction<ServerResponse> genreRoutes(GenreRepository genreRepository, ModelMapper modelMapper) {
         final Function<Genre, GenreDto> genreToDtoMapper = (Genre genre) -> modelMapper.map(genre, GenreDto.class);

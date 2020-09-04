@@ -8,12 +8,12 @@ import reactor.core.publisher.Mono;
 import ru.otus.homework11.domain.Book;
 import ru.otus.homework11.domain.BookInfoProjection;
 
-public interface BookRepository extends ReactiveMongoRepository<Book, String> {
+public interface BookRepository extends ReactiveMongoRepository<Book, String>, BookRepositoryCustom {
     Flux<Book> findByName(String name);
 
     @Query("{}")
     Flux<BookInfoProjection> findAllBookInfos();
 
-    @Query("{id: ?#{[0]} }")
+    //    @Query("{id: ?#{[0]} }")
     Mono<BookInfoProjection> findBookInfoById(String id);
 }
