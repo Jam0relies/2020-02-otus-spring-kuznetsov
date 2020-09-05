@@ -9,12 +9,14 @@ import org.springframework.context.annotation.Import;
 import reactor.test.StepVerifier;
 import ru.otus.homework11.domain.Author;
 import ru.otus.homework11.domain.Book;
+import ru.otus.homework11.domain.Comment;
 import ru.otus.homework11.mongock.MongockConfig;
 
 import java.time.Duration;
+import java.time.Instant;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Custom book repository test")
 @Slf4j
@@ -40,12 +42,22 @@ class BookRepositoryImplTest {
     }
 
     @Test
-    void addAuthorToBook() throws Exception {
+    void addAuthorToBook() {
         Book book = bookRepository.save(new Book("Add author test book")).block(Duration.ofSeconds(1));
         Author authorToAdd = authorRepository.findByName("Harold Abelson").blockFirst(Duration.ofSeconds(1));
-        Object result = bookRepository.addAuthorToBook(book.getId(), authorToAdd.getId()).block(Duration.ofSeconds(1));
+        bookRepository.addAuthorToBook(book.getId(), authorToAdd.getId()).block(Duration.ofSeconds(1));
         StepVerifier.create(bookRepository.findById(book.getId()))
                 .assertNext(foundBook -> assertTrue(foundBook.getAuthors().contains(authorToAdd), foundBook.toString()))
                 .expectComplete().verify(Duration.ofSeconds(1));
+    }
+
+    @Test
+    void addComment() {
+        Comment newComment = new Comment("test comment", Instant.now());
+        Book book = bookRepository.findByName("Hamlet").blockFirst(Duration.ofSeconds(1));
+        bookRepository.addComment(book.getId(), newComment).block(Duration.ofSeconds(1));
+        List<Comment> comments = bookRepository.getAllComments(book.getId()).buffer().blockLast(Duration.ofSeconds(1));
+        assertEquals(newComment, comments.get(1));
+        assertTrue(comments.contains(newComment), newComment.toString() + " " + comments.toString());
     }
 }

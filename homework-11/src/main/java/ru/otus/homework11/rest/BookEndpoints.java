@@ -1,4 +1,4 @@
-package ru.otus.homework11.service;
+package ru.otus.homework11.rest;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -35,7 +35,7 @@ public class BookEndpoints {
         return route()
                 .GET("/api/books",
                         request -> ok().contentType(APPLICATION_JSON)
-                                .body(bookRepository.findAllBookInfos()
+                                .body(bookRepository.findAllBookInfosBy()
                                         .map(bookInfoToDtoMapper), BookDto.class))
                 .DELETE("/api/books/{bookId}",
                         request -> bookRepository.deleteById(request.pathVariable("bookId"))

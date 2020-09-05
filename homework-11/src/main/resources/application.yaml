@@ -6,22 +6,6 @@ spring:
       database: homework11
       host: 172.17.0.2
       port: 27017
+      uuid-representation: standard
 mongock:
   change-logs-scan-package: ru.otus.homework11.mongock.changelog
-#  datasource:
-#    initialization-mode: always
-#    schema: classpath:schema.sql
-#    data: classpath:data.sql
-#    url: jdbc:h2:mem:testdb
-#    #    url: jdbc:h2:tcp://localhost/~/test
-#    username: sa
-#  jpa:
-#    hibernate:
-#      ddl-auto: none
-#
-#    properties:
-#      hibernate:
-#        format_sql: true
-#
-#    show-sql: true
-

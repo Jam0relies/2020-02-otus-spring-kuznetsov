@@ -6,10 +6,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
-//import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
-//@EnableMongock
 public class MongockConfig {
     @Bean
     public MongockSpring5.MongockInitializingBeanRunner mongockApplicationRunner(

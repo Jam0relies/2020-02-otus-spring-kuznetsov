@@ -5,14 +5,13 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 @Data
 @EqualsAndHashCode(of = {"id"})
-@ToString(exclude = "comments")
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "books")
@@ -31,7 +30,7 @@ public class Book {
     private Set<Genre> genres = new HashSet<>();
 
     @NonNull
-    private HashMap<UUID, Comment> comments = new HashMap<>();
+    private List<Comment> comments = new ArrayList<>();
 
     public Book(String name) {
         this.name = name;

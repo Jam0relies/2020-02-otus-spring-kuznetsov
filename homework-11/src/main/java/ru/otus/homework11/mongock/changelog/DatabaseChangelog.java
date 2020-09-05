@@ -47,7 +47,8 @@ public class DatabaseChangelog {
         Document book1 = new Document("name", "Hamlet")
                 .append("authors", Collections.singletonList(new DBRef("authors", author1Id)))
                 .append("genres", Collections.singletonList(new DBRef("genres", classicGenreId)))
-                .append("comments", Collections.singletonMap(UUID.randomUUID().toString(), new Document("text", "Some comment").append("timestamp", Instant.now())));
+                .append("comments", Collections.singletonList(new Document("text", "Some comment")
+                        .append("timestamp", Instant.now()).append("uuid", UUID.randomUUID())));
         books.insertOne(book1);
 
         Document book2 = new Document("name", "Structure and Interpretation of Computer Programs")
