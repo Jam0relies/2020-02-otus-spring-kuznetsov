@@ -11,17 +11,6 @@
       </div>
     </div>
   </div>
-  <!--      <form action="#" th:action="@{/books/{bookId}/comments (bookId=${book.id})}" th:object="${commentToAdd}"-->
-  <!--            method="post">-->
-  <!--        <textarea th:field="*{text}"></textarea>-->
-  <!--        <button type="submit">add</button>-->
-  <!--      </form>-->
-  <!--      <div>-->
-  <!--        <div th:each="comment : ${book.comments}">-->
-  <!--          <div th:text="${comment.timestamp}"></div>-->
-  <!--          <div th:text="${comment.text}"></div>-->
-  <!--        </div>-->
-  <!--      </div>-->
 </template>
 <script>
 import axios from "axios";
