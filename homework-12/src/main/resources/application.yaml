@@ -3,9 +3,9 @@ server:
 spring:
   data:
     mongodb:
-      database: homework11
+      database: homework12
       host: 172.17.0.2
       port: 27017
       uuid-representation: standard
 mongock:
-  change-logs-scan-package: ru.otus.homework11.mongock.changelog
+  change-logs-scan-package: ru.otus.homework12.mongock.changelog
