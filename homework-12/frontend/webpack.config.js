@@ -85,7 +85,9 @@ module.exports = {
     noInfo: true,
     overlay: true,
     proxy: {
-      '/api': 'http://localhost:8081'
+      '/api': 'http://localhost:8081',
+      // default spring security login page
+      // '/login': 'http://localhost:8081'
     }
   },
   performance: {

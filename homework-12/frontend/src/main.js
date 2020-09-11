@@ -6,6 +6,7 @@ import Authors from "./components/Authors";
 import Genres from "./components/Genres";
 import Books from "./components/Books";
 import BookInfo from "./components/BookInfo";
+import LoginForm from "./components/LoginForm";
 
 Vue.use(Router)
 // Vue.use(Meta)
@@ -15,6 +16,7 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
+      component: LoginForm
       // component: Home,
     },
     {
@@ -36,6 +38,12 @@ const router = new Router({
       path: '/books/:id',
       name: 'book',
       component: BookInfo,
+      props: true
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginForm,
       props: true
     },
   ],
