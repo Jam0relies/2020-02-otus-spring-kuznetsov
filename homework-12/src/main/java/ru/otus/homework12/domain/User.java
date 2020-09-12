@@ -6,8 +6,6 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Builder
@@ -20,11 +18,8 @@ public class User implements UserDetails {
     @Id
     private String id;
 
-    @NotBlank
-    @Size(max = 20)
     private String username;
 
-    @NotBlank
     private String password;
 
     @DBRef
