@@ -9,6 +9,9 @@ import com.mongodb.client.MongoCollection;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.BsonValue;
 import org.bson.Document;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import ru.otus.homework12.domain.User;
 
 import java.time.Instant;
 import java.util.Arrays;
@@ -57,5 +60,16 @@ public class DatabaseChangelog {
                         new DBRef("authors", author4Id)))
                 .append("genres", Collections.singletonList(new DBRef("genres", religionGenreId)));
         books.insertOne(book2);
+    }
+
+    @ChangeSet(order = "002", id = "users", author = "alexander.niko.kuzne")
+    public void t1(MongockTemplate db) throws Exception {
+        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder(10);
+        MongoTemplate mongoTemplate = db.getImpl();
+        User user = User.builder()
+                .username("user")
+                .password("{bcrypt}" + bcrypt.encode("qwerty"))
+                .build();
+        mongoTemplate.save(user);
     }
 }
