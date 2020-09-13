@@ -30,10 +30,10 @@ export default {
     async login() {
       this.loginInProcess = true;
       let canNavigate = false;
-      const loginRequest = {
-        email: this.loginForm.email,
-        password: this.loginForm.password
-      };
+      // const loginRequest = {
+      //   username: this.loginForm.username,
+      //   password: this.loginForm.password
+      // };
       try {
         let formData = new FormData();
         formData.set("username", this.loginForm.username);
