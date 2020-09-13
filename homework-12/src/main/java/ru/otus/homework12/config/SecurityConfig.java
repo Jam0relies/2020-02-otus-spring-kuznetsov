@@ -1,21 +1,23 @@
 package ru.otus.homework12.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final PasswordEncoder passwordEncoder;
+    private final UserDetailsService userDetailsService;
+
+    public SecurityConfig(PasswordEncoder passwordEncoder, UserDetailsService userDetailsService) {
+        this.passwordEncoder = passwordEncoder;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -27,13 +29,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**").authenticated()
                 .and()
                 .formLogin()
-                .loginProcessingUrl("/api/login")
+                .loginProcessingUrl("/api/auth/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .permitAll()
                 .and()
                 .logout()
-                .logoutUrl("/logout")
+                .logoutUrl("/api/auth/logout")
                 .and()
                 .anonymous()
                 .principal("anonymous")
@@ -43,15 +45,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        String idForEncode = "bcrypt";
-        Map<String, PasswordEncoder> encoders = new HashMap<>();
-        encoders.put(idForEncode, new BCryptPasswordEncoder(10));
-        return new DelegatingPasswordEncoder(idForEncode, encoders);
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
-    @Autowired
-    public void configure(AuthenticationManagerBuilder auth, UserDetailsService userDetailsService) throws Exception {
-        auth.userDetailsService(userDetailsService);
+//@Bean
+//public void t(){
+//        super.
+//}
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 }

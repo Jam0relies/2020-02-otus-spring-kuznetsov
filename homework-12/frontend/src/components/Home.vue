@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="home">
-    <p>Main page</p>
+    <p>Welcome</p>
   </div>
 </template>
 <script>

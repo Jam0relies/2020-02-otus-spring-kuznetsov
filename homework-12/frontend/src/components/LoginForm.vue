@@ -1,36 +1,65 @@
 <template>
   <div>
-    <form v-on:submit.prevent="performLogin">
+    <form class="login-form" v-on:submit.prevent="login">
       <div>Login</div>
-      <label>login<input v-model="login"/></label>
-      <label>password<input v-model="password" type="password"/></label>
+      <label>username<input v-model="loginForm.username"/></label>
+      <label>password<input v-model="loginForm.password" type="password"/></label>
       <button>send</button>
     </form>
   </div>
 </template>
 <script>
-import axios from 'axios'
+import httpResource from "../http/httpResource";
+import router from "../router/router";
+import {getAuthenticatedUser, parseApiErrors, performLogout} from "../util/utils";
 
 export default {
   name: 'login',
   data() {
-    return {login: "", password: ""}
+    return {
+      loginForm: {
+        username: "",
+        password: ""
+      },
+      displayErrorMessage: false,
+      errorMessage: "",
+      loginInProcess: false
+    };
   },
   methods: {
-    performLogin(event) {
-      event.preventDefault();
-      let formData = new FormData();
-      formData.set("username", this.login);
-      formData.set("password", this.password);
-      axios.post('http://localhost:8080/api/login', formData, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
-        .then((result) => {
-          // this.$store.commit('loginSuccess')
-          window.location = '/books'
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    },
+    async login() {
+      this.loginInProcess = true;
+      let canNavigate = false;
+      const loginRequest = {
+        email: this.loginForm.email,
+        password: this.loginForm.password
+      };
+      try {
+        let formData = new FormData();
+        formData.set("username", this.loginForm.username);
+        formData.set("password", this.loginForm.password);
+        const response = await httpResource.post("/api/auth/login", formData, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
+        // const response = await httpResource.post("/api/auth/login", loginRequest);
+        if (response.status === 200) {
+          await getAuthenticatedUser();
+          canNavigate = true;
+        }
+      } catch (error) {
+        performLogout();
+        const apierror = parseApiErrors(error);
+        this.displayErrorMessage = true;
+        this.errorMessage = apierror.message;
+      }
+      this.loginInProcess = false;
+      if (canNavigate) {
+        router.replace("/");
+      }
+    }
   }
 }
 </script>
+<style>
+.login-form {
+  horiz-align: center;
+}
+</style>
