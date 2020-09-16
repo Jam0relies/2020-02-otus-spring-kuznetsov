@@ -1,0 +1,11 @@
+server:
+  port: 8081
+spring:
+  data:
+    mongodb:
+      database: homework12
+      host: 172.17.0.2
+      port: 27017
+      uuid-representation: standard
+mongock:
+  change-logs-scan-package: ru.otus.homework12.mongock.changelog
