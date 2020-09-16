@@ -44,7 +44,6 @@ class AuthorControllerTest {
     @WithMockUser(
             username = "admin"
     )
-
     @DisplayName("call service save method")
     @Test
     void addAuthor() throws Exception {
