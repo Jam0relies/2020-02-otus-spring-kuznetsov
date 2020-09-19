@@ -37,7 +37,18 @@ export function performLogout() {
 export async function refreshTokenInternal() {
   try {
     const response = await httpResource.post("/api/auth/refresh");
-    if (response.status !== 200) performLogout();
+    if (response.status !== 200) {
+      performLogout();
+    } else {
+      let intervalName = store.getters.getIntervalName;
+      if (!intervalName) {
+        intervalName = setInterval(async () => {
+          await refreshTokenInternal();
+        }, intervalMilliSeconds);
+        store.commit("setIntervalName", intervalName);
+      }
+    }
+
   } catch (error) {
     performLogout();
   }
@@ -56,11 +67,8 @@ export async function getAuthenticatedUser() {
       store.commit("setCurrentUser", currentUser);
       store.commit("setIsAuthenticated", true);
       await refreshTokenInternal();
-      const intervalName = setInterval(async () => {
-        await refreshTokenInternal();
-      }, intervalMilliSeconds);
 
-      store.commit("setIntervalName", intervalName);
+
     } else {
       performLogout();
     }
@@ -69,4 +77,4 @@ export async function getAuthenticatedUser() {
   }
 }
 
-export const intervalMilliSeconds = 30000; // 30 seconds
+export const intervalMilliSeconds = 29000; // 29 seconds
