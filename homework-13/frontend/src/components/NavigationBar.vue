@@ -25,6 +25,14 @@
           Genres
         </router-link>
       </div>
+      <div>
+        <router-link
+          active-class="is-active"
+          class="link"
+          :to="{ name: 'users', params: { } }">
+          Users
+        </router-link>
+      </div>
     </nav>
   </header>
 </template>

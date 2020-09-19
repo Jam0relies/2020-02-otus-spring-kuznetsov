@@ -4,6 +4,7 @@ import Genres from "../components/Genres";
 import Books from "../components/Books";
 import BookInfo from "../components/BookInfo";
 import Home from "../components/Home";
+import Users from "../components/Users";
 
 
 const routes = [
@@ -12,6 +13,12 @@ const routes = [
     name: 'home',
     component: Home
     // component: Home,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginForm,
+    props: true
   },
   {
     path: '/authors',
@@ -35,10 +42,9 @@ const routes = [
     props: true
   },
   {
-    path: '/login',
-    name: 'login',
-    component: LoginForm,
-    props: true
+    path: '/users',
+    name: 'users',
+    component: Users
   },
 ]
 

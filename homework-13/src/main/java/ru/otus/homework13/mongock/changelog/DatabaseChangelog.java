@@ -68,9 +68,9 @@ public class DatabaseChangelog {
     public void addUsers(MongockTemplate db) throws Exception {
         MongoTemplate mongoTemplate = db.getImpl();
         Role userRole = new Role("user");
-        mongoTemplate.save(userRole);
+        userRole = mongoTemplate.save(userRole);
         Role adminRole = new Role("admin");
-        mongoTemplate.save(adminRole);
+        adminRole = mongoTemplate.save(adminRole);
         BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder(10);
 
         User user = User.builder()

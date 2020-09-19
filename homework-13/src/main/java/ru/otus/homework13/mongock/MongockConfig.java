@@ -16,7 +16,7 @@ public class MongockConfig {
     ) {
         return MongockSpring5.builder()
                 .setDriver(SpringDataMongo3Driver.withDefaultLock(mongoTemplate))
-                .addChangeLogsScanPackage("ru.otus.homework12.mongock.changelog")
+                .addChangeLogsScanPackage("ru.otus.homework13.mongock.changelog")
                 .setSpringContext(springContext)
                 .buildInitializingBeanRunner();
     }

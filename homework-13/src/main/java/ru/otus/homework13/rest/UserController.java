@@ -4,11 +4,11 @@ import org.apache.maven.artifact.repository.Authentication;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.otus.homework13.domain.User;
 import ru.otus.homework13.rest.dto.UserDto;
 import ru.otus.homework13.service.UserService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class UserController {
@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @GetMapping("/api/users")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public List<UserDto> getAllUsers() {
+        return userService.getAllUsers().stream().map(u -> modelMapper.map(u, UserDto.class)).collect(Collectors.toList());
     }
 }
