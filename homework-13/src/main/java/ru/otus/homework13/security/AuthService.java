@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
-import ru.otus.homework13.repository.UserRepository;
 import ru.otus.homework13.rest.dto.LoginRequestDto;
 import ru.otus.homework13.rest.dto.LoginResponseDto;
 import ru.otus.homework13.rest.dto.Token;
@@ -14,19 +14,19 @@ import ru.otus.homework13.rest.dto.Token;
 @Service
 public class AuthService {
     private final TokenProvider tokenProvider;
-    private final UserRepository userRepository;
+    private final UserDetailsService userDetailsService;
     private final CookieAccess cookieAccess;
 
-    public AuthService(TokenProvider tokenProvider, UserRepository userRepository, CookieAccess cookieAccess) {
+    public AuthService(TokenProvider tokenProvider, UserDetailsService userDetailsService, CookieAccess cookieAccess) {
         this.tokenProvider = tokenProvider;
-        this.userRepository = userRepository;
+        this.userDetailsService = userDetailsService;
         this.cookieAccess = cookieAccess;
     }
 
 
     public ResponseEntity<LoginResponseDto> login(LoginRequestDto loginRequest, String accessToken, String refreshToken) {
         String login = loginRequest.getUsername();
-        UserDetails user = userRepository.findUserDetailsByUsername(login).orElseThrow(() -> new IllegalArgumentException("User not found with login " + login));
+        UserDetails user = userDetailsService.loadUserByUsername(login);
 
         boolean accessTokenValid = tokenProvider.validateToken(accessToken);
         boolean refreshTokenValid = tokenProvider.validateToken(refreshToken);
@@ -35,19 +35,19 @@ public class AuthService {
         Token newAccessToken;
         Token newRefreshToken;
         if (!accessTokenValid && !refreshTokenValid) {
-            newAccessToken = tokenProvider.generateAccessToken(user.getUsername());
+            newAccessToken = tokenProvider.generateAccessToken(user);
             newRefreshToken = tokenProvider.generateRefreshToken(user.getUsername());
             addAccessTokenCookie(responseHeaders, newAccessToken);
             addRefreshTokenCookie(responseHeaders, newRefreshToken);
         }
 
         if (!accessTokenValid && refreshTokenValid) {
-            newAccessToken = tokenProvider.generateAccessToken(user.getUsername());
+            newAccessToken = tokenProvider.generateAccessToken(user);
             addAccessTokenCookie(responseHeaders, newAccessToken);
         }
 
         if (accessTokenValid && refreshTokenValid) {
-            newAccessToken = tokenProvider.generateAccessToken(user.getUsername());
+            newAccessToken = tokenProvider.generateAccessToken(user);
             newRefreshToken = tokenProvider.generateRefreshToken(user.getUsername());
             addAccessTokenCookie(responseHeaders, newAccessToken);
             addRefreshTokenCookie(responseHeaders, newRefreshToken);
@@ -60,15 +60,15 @@ public class AuthService {
     }
 
 
-    public ResponseEntity<LoginResponseDto> refresh(String accessToken, String refreshToken) {
+    public ResponseEntity<LoginResponseDto> refresh(String refreshToken) {
         Boolean refreshTokenValid = tokenProvider.validateToken(refreshToken);
         if (!refreshTokenValid) {
             throw new IllegalArgumentException("Refresh Token is invalid!");
         }
 
-        String currentUserEmail = tokenProvider.getUsernameFromToken(accessToken);
-
-        Token newAccessToken = tokenProvider.generateAccessToken(currentUserEmail);
+        String username = tokenProvider.getUsernameFromToken(refreshToken);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        Token newAccessToken = tokenProvider.generateAccessToken(userDetails);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add(HttpHeaders.SET_COOKIE, cookieAccess.createAccessTokenCookie(newAccessToken.getTokenValue(), newAccessToken.getDuration()).toString());
 

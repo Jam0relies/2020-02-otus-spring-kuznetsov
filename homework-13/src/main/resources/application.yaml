@@ -18,7 +18,7 @@ spring:
 security:
   auth:
     tokenSecret: myTokenSecret
-    tokenExpirationMsec: 3600000 #1 hour
+    tokenExpirationMsec: 30000 # 30 seconds
     refreshTokenExpirationMsec: 7776000000 #90 days
     accessTokenCookieName: accessToken
     refreshTokenCookieName: refreshToken

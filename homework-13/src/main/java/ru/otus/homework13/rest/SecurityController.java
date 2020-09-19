@@ -33,7 +33,9 @@ public class SecurityController {
             @CookieValue(name = "refreshToken", required = false) String refreshToken,
             @Valid @RequestBody LoginRequestDto loginRequest) {
         log.debug("Login request for {}", loginRequest.getUsername());
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return authService.login(loginRequest, accessToken, refreshToken);
     }
@@ -42,8 +44,8 @@ public class SecurityController {
      * For authentication check and future JWT token refreshing
      */
     @PostMapping("/api/auth/refresh")
-    public ResponseEntity<LoginResponseDto> refreshToken(@CookieValue(name = "accessToken", required = false) String accessToken,
-                                                         @CookieValue(name = "refreshToken", required = false) String refreshToken) {
-        return authService.refresh(accessToken, refreshToken);
+    public ResponseEntity<LoginResponseDto> refreshToken(
+            @CookieValue(name = "refreshToken", required = false) String refreshToken) {
+        return authService.refresh(refreshToken);
     }
 }

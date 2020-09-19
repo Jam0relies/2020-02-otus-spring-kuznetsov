@@ -44,7 +44,7 @@ export async function refreshTokenInternal() {
 }
 
 export async function refreshToken() {
-  const response = await httpResource.post("/auth/refresh");
+  const response = await httpResource.post("/api/auth/refresh");
   return response.status;
 }
 
@@ -69,4 +69,4 @@ export async function getAuthenticatedUser() {
   }
 }
 
-export const intervalMilliSeconds = 1800000; // 30 minutes
+export const intervalMilliSeconds = 30000; // 30 seconds
