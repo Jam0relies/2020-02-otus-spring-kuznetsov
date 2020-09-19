@@ -11,18 +11,20 @@ import org.bson.BsonValue;
 import org.bson.Document;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import ru.otus.homework13.domain.Role;
 import ru.otus.homework13.domain.User;
 
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.UUID;
 
 @ChangeLog
 @Slf4j
 public class DatabaseChangelog {
     @ChangeSet(order = "001", id = "initialData", author = "alexander.niko.kuzne")
-    public void t(MongockTemplate db) throws Exception {
+    public void addBooks(MongockTemplate db) throws Exception {
         log.info("Initialise data");
         com.mongodb.client.MongoCollection<Document> genres = db.getCollection("genres");
 
@@ -63,13 +65,25 @@ public class DatabaseChangelog {
     }
 
     @ChangeSet(order = "002", id = "users", author = "alexander.niko.kuzne")
-    public void t1(MongockTemplate db) throws Exception {
-        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder(10);
+    public void addUsers(MongockTemplate db) throws Exception {
         MongoTemplate mongoTemplate = db.getImpl();
+        Role userRole = new Role("user");
+        mongoTemplate.save(userRole);
+        Role adminRole = new Role("admin");
+        mongoTemplate.save(adminRole);
+        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder(10);
+
         User user = User.builder()
                 .username("user")
                 .password("{bcrypt}" + bcrypt.encode("qwerty"))
+                .authorities(new HashSet<>(Arrays.asList(userRole)))
                 .build();
         mongoTemplate.save(user);
+        User admin = User.builder()
+                .username("admin")
+                .password("{bcrypt}" + bcrypt.encode("qwerty123"))
+                .authorities(new HashSet<>(Arrays.asList(userRole, adminRole)))
+                .build();
+        mongoTemplate.save(admin);
     }
 }

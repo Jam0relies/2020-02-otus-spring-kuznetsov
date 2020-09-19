@@ -30,16 +30,16 @@ export default {
     async login() {
       this.loginInProcess = true;
       let canNavigate = false;
-      // const loginRequest = {
-      //   username: this.loginForm.username,
-      //   password: this.loginForm.password
-      // };
+      const loginRequest = {
+        username: this.loginForm.username,
+        password: this.loginForm.password
+      };
       try {
-        let formData = new FormData();
-        formData.set("username", this.loginForm.username);
-        formData.set("password", this.loginForm.password);
-        const response = await httpResource.post("/api/auth/login", formData, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
-        // const response = await httpResource.post("/api/auth/login", loginRequest);
+        // let formData = new FormData();
+        // formData.set("username", this.loginForm.username);
+        // formData.set("password", this.loginForm.password);
+        // const response = await httpResource.post("/api/auth/login", formData, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}});
+        const response = await httpResource.post("/api/auth/login", loginRequest);
         if (response.status === 200) {
           await getAuthenticatedUser();
           canNavigate = true;
