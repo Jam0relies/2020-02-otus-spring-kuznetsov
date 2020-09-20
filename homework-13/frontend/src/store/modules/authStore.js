@@ -31,8 +31,8 @@ const mutations = {
     state.intervalName = intervalName;
   },
   clearCurrentUser(state) {
-    state.currentUser.userId = "";
-    state.currentUser.email = "";
+    state.currentUser.username = "";
+    state.currentUser.authorities = [];
   }
 };
 
