@@ -11,40 +11,60 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home
-    // component: Home,
+    component: Home,
+    meta: {
+      authorities: ["user"]
+    },
   },
   {
     path: '/login',
     name: 'login',
     component: LoginForm,
-    props: true
+    props: true,
+    meta: {
+      authorities: []
+    },
   },
   {
     path: '/authors',
     name: 'authors',
-    component: Authors
+    component: Authors,
+    meta: {
+      authorities: ["user"]
+    },
   },
   {
     path: '/genres',
     name: 'genres',
-    component: Genres
+    component: Genres,
+    meta: {
+      authorities: ["user"]
+    },
   },
   {
     path: '/books',
     name: 'books',
-    component: Books
+    component: Books,
+    meta: {
+      authorities: ["user"]
+    },
   },
   {
     path: '/books/:id',
     name: 'book',
     component: BookInfo,
-    props: true
+    props: true,
+    meta: {
+      authorities: ["user"]
+    },
   },
   {
     path: '/users',
     name: 'users',
-    component: Users
+    component: Users,
+    meta: {
+      authorities: ["admin"]
+    }
   },
 ]
 

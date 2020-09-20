@@ -1,8 +1,8 @@
 const state = {
   isAuthenticated: false,
   currentUser: {
-    userId: "",
-    email: ""
+    username: "",
+    authorities: []
   },
   intervalName: ""
 };
@@ -24,8 +24,8 @@ const mutations = {
     state.isAuthenticated = isAuthenticated;
   },
   setCurrentUser(state, currentUser) {
-    state.currentUser.userId = currentUser.userId;
-    state.currentUser.email = currentUser.email;
+    state.currentUser.username = currentUser.username;
+    state.currentUser.authorities = currentUser.authorities;
   },
   setIntervalName(state, intervalName) {
     state.intervalName = intervalName;
