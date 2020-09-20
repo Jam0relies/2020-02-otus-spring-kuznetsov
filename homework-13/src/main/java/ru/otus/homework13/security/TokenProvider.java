@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import ru.otus.homework13.config.JwtConfig;
@@ -62,12 +61,7 @@ public class TokenProvider {
         Set<JwtAuthority> list = (Set<JwtAuthority>) claims.get("authorities", ArrayList.class).stream()
                 .map(map -> modelMapper.map(map, JwtAuthority.class))
                 .collect(Collectors.toSet());
-        log.info("{}", list);
         return new JwtUserDetails(claims.getSubject(), list);
-    }
-
-    public static class AuthoritySet extends ArrayList<GrantedAuthority> {
-
     }
 
     public String getUsernameFromToken(String token) {

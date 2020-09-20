@@ -1,6 +1,5 @@
 package ru.otus.homework13.rest;
 
-import org.apache.maven.artifact.repository.Authentication;
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +20,8 @@ public class UserController {
     }
 
     @GetMapping("/api/user")
-    public UserDto getUserInfo(Authentication authentication) {
-        return modelMapper.map(authentication, UserDto.class);
+    public UserDto getUserInfo() {
+        return modelMapper.map(userService.getUserDetails(), UserDto.class);
     }
 
     @GetMapping("/api/users")

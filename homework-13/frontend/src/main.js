@@ -19,8 +19,13 @@ async function init() {
     if (to.path !== "/login" && !store.getters.getIsAuthenticated) {
       try {
         const statusCode = await refreshToken();
-        if (statusCode !== 200) next("/login");
-        else next();
+
+        if (statusCode !== 200) {
+          next("/login");
+        } else {
+          await getAuthenticatedUser();
+          next();
+        }
       } catch (error) {
         next("/login");
       }
