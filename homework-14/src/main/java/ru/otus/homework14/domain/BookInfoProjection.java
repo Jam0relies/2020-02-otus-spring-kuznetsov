@@ -1,13 +1,9 @@
 package ru.otus.homework14.domain;
 
-import java.util.Set;
+import lombok.Data;
 
-public interface BookInfoProjection {
-    String getId();
-
-    String getName();
-
-    Set<Author> getAuthors();
-
-    Set<Genre> getGenres();
+@Data
+public class BookInfoProjection {
+    private String id;
+    private String name;
 }

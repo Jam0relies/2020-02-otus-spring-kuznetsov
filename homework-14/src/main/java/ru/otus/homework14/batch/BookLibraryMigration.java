@@ -1,38 +1,36 @@
 package ru.otus.homework14.batch;
 
-//import org.h2.jdbcx.JdbcDataSource;
-
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
-import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.data.builder.MongoItemReaderBuilder;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
-import ru.otus.homework14.domain.Role;
 
-import java.util.Collections;
-
-@EnableBatchProcessing
 @Configuration
 public class BookLibraryMigration {
-    @Bean
-    public ItemReader<Role> roleReader(MongoTemplate mongoTemplate) {
-        return new MongoItemReaderBuilder<Role>()
-                .name("roleReader")
-                .template(mongoTemplate)
-                .query(new Query())
-                .sorts(Collections.singletonMap("id", Sort.Direction.ASC))
-                .targetType(Role.class)
-                .build();
+    private final JobBuilderFactory jobBuilderFactory;
+
+    public BookLibraryMigration(JobBuilderFactory jobBuilderFactory) {
+        this.jobBuilderFactory = jobBuilderFactory;
     }
 
-//    @Bean
-//    public ItemWriter<Role> roleWriter() {
-//        return new JdbcBatchItemWriterBuilder<Role>()
-//                .dataSource(new JdbcDataSource().)
-//                .build();
-//    }
-
+    @Bean
+    public Job libraryMigrationJob(@Qualifier("roleMigrationStep") Step roleStep,
+                                   @Qualifier("userMigrationStep") Step userStep,
+                                   @Qualifier("authorMigrationStep") Step authorStep,
+                                   @Qualifier("genreMigrationStep") Step genreStep,
+                                   @Qualifier("bookMigrationStep") Step bookInfoStep,
+                                   @Qualifier("bookGenreMigrationStep") Step bookGenreMigrationStep) {
+        return jobBuilderFactory.get("libraryMigration")
+                .incrementer(new RunIdIncrementer())
+                .flow(roleStep)
+                .next(userStep)
+                .next(authorStep)
+                .next(genreStep)
+                .next(bookInfoStep)
+                .next(bookGenreMigrationStep)
+                .end().build();
+    }
 }

@@ -1,4 +1,4 @@
-package ru.otus.homework14.batch;
+package ru.otus.homework14.config;
 
 import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 public class BatchConfig extends DefaultBatchConfigurer {
     private final DataSource batchDataSource;
 
-    public BatchConfig(@Qualifier("batchDataSource") DataSource batchDataSource) {
+    public BatchConfig(@Qualifier("batchDatasource") DataSource batchDataSource) {
         this.batchDataSource = batchDataSource;
     }
 
