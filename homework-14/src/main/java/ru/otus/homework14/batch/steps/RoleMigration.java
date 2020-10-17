@@ -8,7 +8,6 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.data.builder.MongoItemReaderBuilder;
-import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -45,7 +44,7 @@ public class RoleMigration {
     @Bean
     public ItemWriter<Role> roleWriter(@Qualifier("targetDatasource") DataSource targetDatasource) {
         return new JdbcBatchItemWriterBuilder<Role>()
-                .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
+                .beanMapped()
                 .sql("insert into roles (authority, mongo_id) values (:authority, :id)")
                 .dataSource(targetDatasource)
                 .build();

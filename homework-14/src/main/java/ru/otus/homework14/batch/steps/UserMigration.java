@@ -5,7 +5,6 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.data.builder.MongoItemReaderBuilder;
-import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -41,7 +40,7 @@ public class UserMigration {
     @Bean
     public ItemWriter<User> userWriter(@Qualifier("targetDatasource") DataSource targetDatasource) {
         return new JdbcBatchItemWriterBuilder<User>()
-                .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
+                .beanMapped()
                 .sql("insert into users (mongo_id, username, password, account_non_expired, account_non_locked, " +
                         "credentials_non_expired, enabled) values (:id, :username, :password, :accountNonExpired, " +
                         ":accountNonLocked, :credentialsNonExpired, :enabled)")
