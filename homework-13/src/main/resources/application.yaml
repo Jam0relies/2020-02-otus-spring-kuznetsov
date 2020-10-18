@@ -1,0 +1,26 @@
+server:
+  port: 8081
+logging:
+  level:
+    ru.otus.homework13: DEBUG
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+  data:
+    mongodb:
+      database: homework13
+      host: 172.17.0.2
+      port: 27017
+      uuid-representation: standard
+
+security:
+  auth:
+    tokenSecret: myTokenSecret
+    tokenExpirationMsec: 30000 # 30 seconds
+    refreshTokenExpirationMsec: 7776000000 #90 days
+    accessTokenCookieName: accessToken
+    refreshTokenCookieName: refreshToken
+mongock:
+  change-logs-scan-package: ru.otus.homework12.mongock.changelog
