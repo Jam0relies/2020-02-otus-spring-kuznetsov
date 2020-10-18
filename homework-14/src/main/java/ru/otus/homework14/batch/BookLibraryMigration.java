@@ -23,7 +23,8 @@ public class BookLibraryMigration {
                                    @Qualifier("genreMigrationStep") Step genreStep,
                                    @Qualifier("bookMigrationStep") Step bookInfoStep,
                                    @Qualifier("bookGenreMigrationStep") Step bookGenreMigrationStep,
-                                   @Qualifier("bookAuthorMigrationStep") Step bookAuthorMigrationStep) {
+                                   @Qualifier("bookAuthorMigrationStep") Step bookAuthorMigrationStep,
+                                   @Qualifier("commentMigrationStep") Step commentMigrationStep) {
         return jobBuilderFactory.get("libraryMigration")
                 .incrementer(new RunIdIncrementer())
                 .flow(roleStep)
@@ -33,6 +34,7 @@ public class BookLibraryMigration {
                 .next(bookInfoStep)
                 .next(bookGenreMigrationStep)
                 .next(bookAuthorMigrationStep)
+                .next(commentMigrationStep)
                 .end().build();
     }
 }

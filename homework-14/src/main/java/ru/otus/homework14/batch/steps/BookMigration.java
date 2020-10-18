@@ -112,7 +112,7 @@ public class BookMigration {
                 lookup("authors", "fk.1.v", "_id", "author"),
                 unwind("$author", false));
         Aggregation aggregation = Aggregation.newAggregation(pipeline);
-        return new MongoAggregationItemReader<>(reactiveMongoTemplate, aggregation, "authors", BookAuthorProjection.class);
+        return new MongoAggregationItemReader<>(reactiveMongoTemplate, aggregation, "books", BookAuthorProjection.class);
     }
 
     @Bean
@@ -126,16 +126,16 @@ public class BookMigration {
     }
 
     @Bean(name = "bookAuthorMigrationStep")
-    public Step bookAuthorMigrationStep(ItemReader<BookAuthorProjection> bookGenreReader, ItemWriter<BookAuthorProjection> bookGenreWriter) {
+    public Step bookAuthorMigrationStep(ItemReader<BookAuthorProjection> bookAuthorReader, ItemWriter<BookAuthorProjection> bookAuthorWriter) {
         ItemProcessor<BookAuthorProjection, BookAuthorProjection> processor = item -> {
             log.info("{}", item);
             return item;
         };
         return stepBuilderFactory.get("bookAuthorMigration")
                 .<BookAuthorProjection, BookAuthorProjection>chunk(CHUNK_SIZE)
-                .reader(bookGenreReader)
+                .reader(bookAuthorReader)
                 .processor(processor)
-                .writer(bookGenreWriter)
+                .writer(bookAuthorWriter)
                 .build();
     }
 }
